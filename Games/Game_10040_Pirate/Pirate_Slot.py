@@ -31,4 +31,6 @@ class GameSlot(object):
 
         return result
 
+    def free(self):
+        pass
 
