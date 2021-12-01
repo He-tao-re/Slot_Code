@@ -11,7 +11,7 @@ class TestProcess(object):
         self.sym_count = False
         self.print_json = False
 
-        self.test_time = 10000000
+        self.test_time = 100000
         self.total_bet = 1200
         self.times = 0
 
