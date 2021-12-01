@@ -1,7 +1,7 @@
 
 import Slot_common.Const as Const
 import datetime
-import Games.Game_1031_Alien.Alien_Slot as Game_Slot
+import Games.Game_10040_Pirate.Pirate_Slot as Game_Slot
 import Slot_common.DataRecod as Data_deal
 import csv
 import json
@@ -52,9 +52,7 @@ class TestCase(object):
             if result[Const.R_Win_Amount] > 0:
                 self.base_hit += 1
 
-            if Const.R_Respin in result.keys():
-                self.respin_hit += 1
-                self.respin_win += result[Const.R_Respin_Win]
+
 
 
 
@@ -63,27 +61,22 @@ class TestCase(object):
         spend_time = (end_time - start_time).seconds
 
 
-        print("Total RTP：{}".format((self.base_win + self.respin_win)/self.all_bet))
+        print(f"Total RTP：{(self.base_win + self.respin_win)/self.all_bet}")
         print('===========')
 
-        print('Base RTP：{}'.format(self.base_win / self.all_bet))
-        print('Hit Rate：{}'.format(self.base_hit / test_time))
+        print(f'Base RTP：{self.base_win / self.all_bet}')
+        print(f'Hit Rate：{self.base_hit / test_time}')
 
 
-        # print('===========')
-        # print('Free RTP：' + str(free_rtp))
-        # print('Free间隔：' + str(free_interval))
-        # print('Free倍数：' + str(free_mul))
-        # print('平均Free次数：' + str(average_free_spins))
+        print('===========')
+        print(f'Free RTP：{self.free_win / self.all_bet}')
+        print(f'Free间隔：{test_time / self.free_hit}')
+        print(f'Free倍数：{self.free_win / total_bet / self.free_hit}')
+        print(f'平均Free次数：{10}')
 
 
-        print("Respin RTP: {}".format(self.respin_win / self.all_bet))
-        print("Respin倍数：{}".format(self.respin_win / self.respin_hit / total_bet))
-        print("Respin间隔：{}".format(test_time / self.respin_hit))
-        print("Bonus平均个数：{}".format(self.bn_num/self.respin_hit))
-        print("Respin平均次数：{}".format(self.re_times/self.respin_hit))
         print('Spend Time：' + str(spend_time) + 's')
 
 
 if __name__ == '__main__':
-    TestCase().test(1000000, 1000)
+    TestCase().test(100000, 1000)

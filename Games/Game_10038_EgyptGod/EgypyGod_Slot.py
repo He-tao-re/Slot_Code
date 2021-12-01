@@ -59,10 +59,9 @@ class GameSlot(object):
         reel_idx = 0
         reel = Slot.GetReel(ReelSets[reel_idx], Config.Const.C_Shape).get_reel()
 
-        result = {Const.R_Spin_Type: Const.R_Base_Type}
-        result[Const.R_Reel] = reel
+        result = {Const.R_Spin_Type: Const.R_Base_Type, Const.R_Reel: reel}
 
-        if respin_hit_check(reel,Config.Base_Respin_H1) == False:
+        if respin_hit_check(reel,Config.Base_Respin_H1) is False:
 
             result.update(Slot.StandardLineEvaluator(totalbet,reel,Config.Const.C_PayLine, Config.Const.C_Paytable,
                                                      Config.Const.C_BetLine, Config.Const.C_Wild_Sub, Config.Const.C_LineSym,
@@ -128,10 +127,9 @@ class GameSlot(object):
         reel_idx = 1
         reel = Slot.GetReel(ReelSets[reel_idx], Config.Const.C_Shape).get_reel()
 
-        result = {Const.R_Spin_Type: Const.R_Free_Type}
-        result[Const.R_Reel] = reel
+        result = {Const.R_Spin_Type: Const.R_Free_Type, Const.R_Reel: reel}
 
-        if respin_hit_check(reel, Config.Free_Respin_H1) == False:
+        if respin_hit_check(reel, Config.Free_Respin_H1) is False:
 
             result.update(Slot.StandardLineEvaluator(totalbet, reel, Config.Const.C_PayLine, Config.Const.C_Paytable,
                                                      Config.Const.C_BetLine, Config.Const.C_Wild_Sub,
