@@ -79,4 +79,4 @@ class TestCase(object):
 
 
 if __name__ == '__main__':
-    TestCase().test(100000, 1000)
+    TestCase().test(1000000, 1000)

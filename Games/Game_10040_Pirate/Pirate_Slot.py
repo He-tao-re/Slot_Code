@@ -87,6 +87,21 @@ class MoveFreeGame(object):
                                                  Config.Const.C_BetLine, Config.Const.C_Wild_Sub, Config.Const.C_LineSym,
                                                  Config.Wilds, Config.Wild).evaluate())
 
+        result[Const.R_Line_WinAmount] = 0
+        result[Const.R_Win_Amount] = 0
+        for line in result[Const.R_Line]:
+            for line_pos in line[Const.R_Line_Pos]:
+                x = line_pos[0]
+                y = line_pos[1]
+
+                if self.wild_pos[x][y] != 0:
+                    line[Const.R_Line_Mul] = line[Const.R_Line_Mul] * self.wild_pos[x][y]
+                    line[Const.R_Line_Win] = line[Const.R_Line_Win] * self.wild_pos[x][y]
+                else:
+                    pass
+            result[Const.R_Win_Amount] += line[Const.R_Line_Win]
+            result[Const.R_Line_WinAmount] += line[Const.R_Line_Win]
+
         for x in range(5):
             for y in range(3):
                 if reel[x][y] == 0 and self.wild_pos[x][y] == 0:
@@ -111,6 +126,7 @@ class MoveFreeGame(object):
 
             free[free_recoder] = spin_result
 
+            # print(json.dumps(spin_result))
         return free, free_win_amount
 
 
