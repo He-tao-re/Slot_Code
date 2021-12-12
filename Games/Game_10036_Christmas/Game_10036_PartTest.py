@@ -43,7 +43,7 @@ class TestCase(object):
             times += 1
             # '''进度打印'''
             # if times % (test_time / 20) == 0:
-            #     print(str(int(times / test_time * 100)) + ' %')
+            #     print(str(int(times / test_time * Game_10039_Macau)) + ' %')
             self.static_data[Const.S_Bet] += total_bet
 
             result = Game_Slot.GameSlot(self.self_data).paidspin(total_bet,kind,reel_idx)

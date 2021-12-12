@@ -15,7 +15,8 @@ class GameSlot(object):
     def paidspin(self,totalbet, collect_data):
 
         result = {}
-        reel = Slot.GetReel(Base_ReelSets[0], Config.Const.C_Shape).get_reel()
+        reel_idx = Util.randdict(Config.Base_Reel_Choose)
+        reel = Slot.GetReel(Base_ReelSets[reel_idx], Config.Const.C_Shape).get_reel()
 
         result[Const.R_Reel] = reel
 

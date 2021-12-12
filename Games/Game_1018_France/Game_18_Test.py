@@ -36,7 +36,7 @@ class TestCase(object):
     def test(self, test_time, total_bet, recoder, sym_count, print_json):
         start_time = datetime.datetime.now()
         times = 0
-        data_recoder = Data_deal.create_csv('ChubbyBunny')
+        data_recoder = Data_deal.create_csv('10018')
 
         if recoder is True:
             with open(data_recoder, 'w', newline='') as file:
@@ -112,25 +112,26 @@ class TestCase(object):
                     writer = csv.writer(file)
 
                     if Const.R_Free in result.keys():
+                        free_end = max(result[Const.R_Free].keys())
                         writer.writerow(
-                            [times, total_bet, result[Const.R_Win_Amount], Const.R_Free, result[Const.R_Free_Win_Amount],
-                             result[Const.R_Free_Spin_Total], '', '', ''])
-
-                    elif Const.R_Collect_Game in result.keys():
+                            [times, total_bet, 0, Const.R_Free, (result[Const.R_Win_Amount] + result[Const.R_Free_Win_Amount]) / total_bet, free_end, '', '', ''])
+                    elif Const.R_Respin in result.keys():
                         writer.writerow(
-                            [times, total_bet, result[Const.R_Win_Amount], '', '', '', '', '', '', Const.R_Collect_Game,
-                             result[Const.R_Collect_Game_Win], ''])
+                            [times, total_bet, 0, '', '', '', Const.R_Respin,(result[Const.R_Win_Amount] + result[Const.R_Respin_Win]) / total_bet, ''])
+                    elif Const.R_Super_Respin in result.keys():
+                        writer.writerow(
+                            [times, total_bet, 0, '', '', '', Const.R_Respin,(result[Const.R_Win_Amount] + result[Const.R_Respin_Win]) / total_bet, ''])
 
                     else:
-                        writer.writerow([times, total_bet, result[Const.R_Win_Amount]])
+                        writer.writerow([times, total_bet, result[Const.R_Win_Amount]/total_bet])
 
-        for k, v in self.base_sym_win.items():
-            for i in range(len(v)):
-                self.base_sym_win[k][i] = v[i] / self.all_bet
-
-        for i in range(9):
-            self.respin_unlock_count[i] = self.respin_unlock_count[i] / self.respin_hit
-            self.super_respin_unlock_count[i] = self.super_respin_unlock_count[i] / self.super_respin_hit
+        # for k, v in self.base_sym_win.items():
+        #     for i in range(len(v)):
+        #         self.base_sym_win[k][i] = v[i] / self.all_bet
+        #
+        # for i in range(9):
+        #     self.respin_unlock_count[i] = self.respin_unlock_count[i] / self.respin_hit
+        #     self.super_respin_unlock_count[i] = self.super_respin_unlock_count[i] / self.super_respin_hit
 
 
         # print(self.base_sym_win)
@@ -164,4 +165,4 @@ class TestCase(object):
 
 
 if __name__ == '__main__':
-    TestCase().test(5000000, 500, recoder=False, sym_count=True, print_json=False)
+    TestCase().test(1000000, 500, recoder=False, sym_count=False, print_json=False)

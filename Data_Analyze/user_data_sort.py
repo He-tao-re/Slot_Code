@@ -9,9 +9,9 @@ sort_file_list中为排好序的（机台-用户数据）
 """
 
 #未排序用户数据文件夹
-original_dir_list = 'F:/Online_Data/Games_Users_Data/'
+original_dir_list = '/Users/ht/Documents/Online_Data/Games_Users_Data/'
 #排序用户数据文件夹
-sort_file_list = 'F:/Online_Data/Games_Users_Data_2/'
+sort_file_list = '/Users/ht/Documents/Online_Data/Games_Users_Data_2/'
 
 
 #机台文件夹列表
@@ -38,6 +38,12 @@ def time_data():
 
         for file_name in original_file_list:
             original_file_path = original_dir_list + game_id + '/' + file_name
-            sort_file_name = sort_file_list + game_id + '/'  + file_name
+            sort_file_name = sort_file_list + game_id + '/' + file_name
 
             common.sort_data(original_file_path, sort_file_name)
+
+
+
+
+
+
