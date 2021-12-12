@@ -9,18 +9,18 @@ import Data_Analyze.Variable as Variable
 game_id = 10022
 
 #排序数据储存文件夹
-sort_user_data = 'F:/Online_Data/Games_Users_Data_2/' + str(game_id)
+sort_user_data = '/Users/ht/Documents/Online_Data/Games_Users_Data_2/' + str(game_id)
 
 #分析数据储存文件夹
-Analyze_Data_Save = 'F:/Online_Data/Analyze_Data'
+Analyze_Data_Save = '/Users/ht/Documents/Online_Data/Analyze_Data'
 
 #用户数据列表
 users_data = common.file_path(sort_user_data)
 
 #分析数据存放文件
-summary_store = 'F:/Online_Data/Analyze_Data/summary_' + str(game_id) + '.txt'
+summary_store = '/Users/ht/Documents/Online_Data/Analyze_Data/summary_' + str(game_id) + '.txt'
 #文件储存文档
-subdivide_data_file = 'F:/Online_Data/Analyze_Data/subdivide_data_' + str(game_id)
+subdivide_data_file = '/Users/ht/Documents/Online_Data/Analyze_Data/subdivide_data_' + str(game_id) + '.xlsx'
 
 
 

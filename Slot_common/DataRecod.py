@@ -6,7 +6,7 @@ def create_csv(game):
     date = datetime.date.today()
     str_date = str(date)
     t = time.time()
-    path = 'C:/Users/Betta/Desktop/GameData/'
+    path = '/Users/ht/'
     filename = game + '-' + str_date + '-' + str(round(t) % 10000) + str('.csv')
     path_filename = path + filename
     return path_filename

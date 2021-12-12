@@ -40,7 +40,7 @@ def sort_data(original_file_name,sort_file_name):
     for time_point in time_list:
         sort_file.write(data_save[time_point])
 
-
+    sort_file.close()
 
 def excel_analysis_data(sht):
     sht.range('n1').value = ['玩家spin分布数据', '玩家分布', '占比']
@@ -104,14 +104,14 @@ def rtp_depart(summary_store,subdivide_data_file):
     app = xw.App(visible=True, add_book=False)
     wb = app.books.add()
 
+    # print(subdivide_data_file)
 
 
     for rtpType in rtp_list:
 
-        sht = wb.sheets.add(rtpType)
+        sht = wb.sheets.add(name=rtpType,before=None,after=None)
         sht.range('a1').value = ["uid", "spinTimes", "累计bet", "累计win", "累计倍数", "rtp"]
         num = 1
-
         user_data_file = open(summary_store, 'r', newline='')
 
         for user_data in user_data_file:
@@ -127,13 +127,13 @@ def rtp_depart(summary_store,subdivide_data_file):
             accWin = user_data_dic[uid][rtpType]['accumulative_win']
             accMul = user_data_dic[uid][rtpType]['accumulative_mul']
             rtp = user_data_dic[uid][rtpType]['RTP']
+            # print(num)
 
             sht.range(cell).value = [uid, spinTimes, accBet, accWin, accMul, rtp]
 
         excel_analysis_data(sht)
 
         user_data_file.close()
-
     wb.save(subdivide_data_file)
     wb.close()
 
