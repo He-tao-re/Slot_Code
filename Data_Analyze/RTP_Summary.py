@@ -27,15 +27,21 @@ import Data_Analyze.RTP_Static.G10024 as RTP_Static_G10024
 import Data_Analyze.RTP_Static.G10025 as RTP_Static_G10025
 import Data_Analyze.RTP_Static.G10029 as RTP_Static_G10029
 
+def test_rtp_data():
+    print(10004)
+
+    RTP_Static_G10004.static_data()
 
 
-def RTP_Data():
+def rtp_data():
 
     # # 机台RTP数据统计
     # RTP_Static_G10001.static_data()
-    # # RTP_Static_G10002.static_data()
-    # # RTP_Static_G10003.static_data()
-    # # RTP_Static_G10004.static_data()
+
+    print(10002)
+    RTP_Static_G10002.static_data()
+    # RTP_Static_G10003.static_data()
+    # RTP_Static_G10004.static_data()
     print(10005)
     RTP_Static_G10005.static_data()
     # # RTP_Static_G10006.static_data()
@@ -52,14 +58,17 @@ def RTP_Data():
     RTP_Static_G10012.static_data()
     print(10013)
     RTP_Static_G10013.static_data()
-    # RTP_Static_G10014.static_data()
+    print(10014)
+    RTP_Static_G10014.static_data()
     # RTP_Static_G10015.static_data()
     print(10016)
     RTP_Static_G10016.static_data()
     print(10017)
     RTP_Static_G10017.static_data()
-    # RTP_Static_G10018.static_data()
-    # RTP_Static_G10019.static_data()
+    print(10018)
+    RTP_Static_G10018.static_data()
+    print(10019)
+    RTP_Static_G10019.static_data()
     print(10020)
     RTP_Static_G10020.static_data()
     print(10021)

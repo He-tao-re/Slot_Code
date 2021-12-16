@@ -53,7 +53,7 @@ def excel_analysis_data(sht):
     sht.range('n9').value = []
     sht.range('n10').value = ['人均spin', '=AVERAGE(B:B)']
     sht.range('n11').value = ['人均spin（Spin >= 100）', '=AVERAGEIF(B:B,">=100",B:B)']
-    sht.range('n12').value = []
+    sht.range('n12').value = ['深度体验率','=P7+P8']
     sht.range('n13').value = []
     sht.range('n14').value = ['玩家RTP分布数据(区间)','玩家分布','占比']
     sht.range('n15').value = ['(0,0.3]','=COUNTIFS(F:F,">=0",F:F,"<=0.3")','=O15/SUM($O$15:$O$27)']
@@ -71,7 +71,7 @@ def excel_analysis_data(sht):
     sht.range('n27').value = ['(2,max]','=COUNTIF(F:F,">2")','=O27/SUM($O$15:$O$27)']
     sht.range('n28').value = []
     sht.range('n29').value = ['人均RTP','=AVERAGE(F:F)']
-    sht.range('n30').value = []
+    sht.range('n30').value = ['关卡RTP','=SUM(E:E)/SUM(B:B)']
     sht.range('n31').value = []
     sht.range('n32').value = ['玩家RTP分布（Spin >= 100)','玩家分布','占比']
     sht.range('n33').value = ['(0,0.3]','=COUNTIFS(B:B,">=100",F:F,"<=0.3")','=O33/SUM($O$33:$O$45)']
@@ -96,20 +96,29 @@ def excel_analysis_data(sht):
 
 def rtp_depart(summary_store,subdivide_data_file):
 
+    try:
+        os.remove(subdivide_data_file)
+    except FileNotFoundError:
+        pass
 
-
-    rtp_list = [Variable.RTP120, Variable.RTP110, Variable.RTP100, Variable.RTP98, Variable.RTP96, Variable.RTP94,
-                Variable.RTP90, Variable.RTP85, Variable.RTP80, Variable.RTP70, Variable.NOFEATURE, Variable.REWARD, Variable.All_Spin]
+    # rtp_list = [Variable.RTP120, Variable.RTP110, Variable.RTP100, Variable.RTP98, Variable.RTP96, Variable.RTP94,
+    #             Variable.RTP90, Variable.RTP85, Variable.RTP80, Variable.RTP70, Variable.NOFEATURE, Variable.REWARD, Variable.All_Spin]
+    rtp_list = [Variable.All_Spin]
 
     app = xw.App(visible=True, add_book=False)
+    app.display_alerts = False
+    app.screen_updating = False
+
     wb = app.books.add()
+    wb.save(path=subdivide_data_file)
+    wb.close()
+    app.quit()
 
-    # print(subdivide_data_file)
-
+    wb = app.books.open(subdivide_data_file)
 
     for rtpType in rtp_list:
 
-        sht = wb.sheets.add(name=rtpType,before=None,after=None)
+        sht = xw.sheets.add(name=rtpType,before=None,after=None)
         sht.range('a1').value = ["uid", "spinTimes", "累计bet", "累计win", "累计倍数", "rtp"]
         num = 1
         user_data_file = open(summary_store, 'r', newline='')
@@ -134,11 +143,9 @@ def rtp_depart(summary_store,subdivide_data_file):
         excel_analysis_data(sht)
 
         user_data_file.close()
-    wb.save(subdivide_data_file)
+    wb.save(path=subdivide_data_file)
     wb.close()
-
-
-
+    app.quit()
 
 
 

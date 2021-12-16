@@ -77,13 +77,13 @@ def fun_1(Test_Time,Total_Bet,kind,reel_idx):
 
 if __name__ == '__main__':
     start_time = datetime.datetime.now()
-    part_time = 1000000
+    part_time = 5000000
     total_bet = 1000
 
     summary = []
-    #[['base', 0], ['free', 1], ['free', 2], ['free', 3], ['free', 4], ['Super', 5],['Super', 6], ['Super', 7]]
+    #[['base', 0], ['base', 1], ['free', 2], ['free', 3], ['free', 4], ['free', 5], ['Super', 6],['Super', 7], ['Super', 8]]
     #  base         free         wheel free  2X Wheel     3X wheel        Super       4X Super     5X Super
-    for reel_kind in [['base', 0], ['free', 1]]:
+    for reel_kind in [['free', 2]]:
 
         kind = reel_kind[0]
         reel_idx = reel_kind[1]

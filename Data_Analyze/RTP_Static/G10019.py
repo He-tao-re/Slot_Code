@@ -58,6 +58,7 @@ def static_data():
 
 
         rtpSave = "RTP96"
+        collect_gold_save = 0
 
         for record in spin_data:
             data_dic = json.loads(record.strip())
@@ -78,6 +79,9 @@ def static_data():
             currentGold = data_dic["data"]["gold"]
             createTime = data_dic["data"]["serverTime"]
 
+            if "collectGold" in data_dic['data'].keys():
+                collect_gold_save = data_dic["data"]["collectGold"]
+            # print(collect_gold_save)
             if gameType == 0:
                 rtpSave = testModel["currentRtp"]
             else:
@@ -140,7 +144,7 @@ def static_data():
 
                 elif gameType == 3:
                     rtpType = rtpSave
-                    mul = winGold / betGold
+                    mul = winGold / collect_gold_save
                     analyze_data[rtpType]["accumulative_win"] += winGold
                     analyze_data[rtpType]["accumulative_mul"] += mul
 

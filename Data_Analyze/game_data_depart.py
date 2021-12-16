@@ -22,23 +22,34 @@ def depart():
     shutil.rmtree("/Users/ht/Documents/Online_Data/Games_Users_Data")
     os.mkdir("/Users/ht/Documents/Online_Data/Games_Users_Data")
     num = 0
+    print(original_file_list)
     for original_file in original_file_list:
-        file_object = open(original_file,'r', encoding='UTF-8',newline='')
-        for line in file_object:
-            num += 1
-            if num % 10000 == 0:
-                print(num)
-            dict_data = json.loads(line[57:])
-            json_data = json.dumps(dict_data)
-            game_id = dict_data["data"]["gameId"]
-            uid = dict_data["data"]["uid"]
-            try:
-                dir_path = "/Users/ht/Documents/Online_Data/Games_Users_Data/" + str(game_id)
-                os.mkdir(dir_path)
-            except FileExistsError:
-                pass
-            file_path = "/Users/ht/Documents/Online_Data/Games_Users_Data/" + str(game_id) + "/" + str(uid) + ".txt"
-            file = open(file_path, 'a+', newline='')
-            file.write(json_data)
-            file.write('\n')
-            file.close()
+        if original_file[-3:] == "log":
+            file_object = open(original_file,'r', encoding='UTF-8',newline='')
+            for line in file_object:
+                # print(line[57:])
+                num += 1
+                if num % 10000 == 0:
+                    print(num)
+
+
+                dict_data = json.loads(line[57:])
+
+
+                json_data = json.dumps(dict_data)
+                game_id = dict_data["data"]["gameId"]
+                uid = dict_data["data"]["uid"]
+                try:
+                    dir_path = "/Users/ht/Documents/Online_Data/Games_Users_Data/" + str(game_id)
+                    os.mkdir(dir_path)
+                except FileExistsError:
+                    pass
+                file_path = "/Users/ht/Documents/Online_Data/Games_Users_Data/" + str(game_id) + "/" + str(uid) + ".txt"
+                file = open(file_path, 'a+', newline='')
+                file.write(json_data)
+                file.write('\n')
+                file.close()
+
+        else:
+            pass
+
