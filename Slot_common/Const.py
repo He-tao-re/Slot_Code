@@ -1,7 +1,7 @@
 """config Setting"""
 
 '''统计数据'''
-
+S_Test_Time = "Test_Time"
 S_Bet = "Accumulative_BET"
 S_Win = "Accumulative_WIN"
 S_Spin = "Accumulative_Spin"
@@ -15,6 +15,7 @@ S_Extra_Win_Hit = "Extra_Win_Hit"
 
 S_Free_Hit = "Free_Hit"
 S_Free_Win = "Free_Win"
+S_Free_Spin_Times = "Free_Spins"
 S_Free_Extra_Win = "Free_Extra_Win"
 S_Free_Extra_Hit = "Free_Extra_Hit"
 

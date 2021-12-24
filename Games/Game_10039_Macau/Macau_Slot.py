@@ -21,9 +21,7 @@ class MixSymStandardLineEvaluator(Slot.StandardLineEvaluator):
         line_mul = 0
         long = 0
 
-        mix_long = 0
-        mix_mul = 0
-        mix_kind = None
+
 
         if line_combo[0] in self.linesym:
             if line_combo[0] in self.wildsub:
@@ -72,37 +70,36 @@ class MixSymStandardLineEvaluator(Slot.StandardLineEvaluator):
                     long = wild_long
                     kind = self.wild
 
+        s_mix_long = 0
+        s_mix_mul = 0
+        b_mix_long = 0
+        b_mix_mul = 0
+        mix_kind = None
 
-        # for sym in line_combo:
-        #     if sym in Config.Sevens:
-        #         mix_kind = Config.Mix_S
-        #         break
-        #     elif sym in Config.Bars:
-        #         mix_kind = Config.Mix_B
-        #         break
+        for i in range(len(line_combo)):
+            if line_combo[i] in [Config.Wild, Config.S1, Config.S2, Config.S3]:
+                s_mix_long += 1
+                s_mix_mul = self.paytable[Config.Mix_S][s_mix_long - 1]
+            else:
+                break
 
-        # if mix_kind == Config.Mix_S:
-        #     for sym in line_combo:
-        #         if sym in Config.Sevens + Config.Wilds:
-        #             mix_long += 1
-        #             mix_kind = Config.Mix_S
-        #             mix_mul = Config.Const.C_Paytable[mix_kind][mix_long - 1]
-        #         else:
-        #             break
-        #
-        # elif mix_kind == Config.Mix_B:
-        #     for sym in line_combo:
-        #         if sym in Config.Bars + Config.Wilds:
-        #             mix_long += 1
-        #             mix_kind = Config.Mix_B
-        #             mix_mul = Config.Const.C_Paytable[mix_kind][mix_long - 1]
-        #         else:
-        #             break
-        #
-        # if mix_mul > line_mul:
-        #     line_mul = mix_mul
-        #     kind = mix_kind
-        #     long = mix_long
+
+        for i in range(len(line_combo)):
+            if line_combo[i] in [Config.Wild, Config.B1, Config.B2]:
+                b_mix_long += 1
+                b_mix_mul = self.paytable[Config.Mix_B][b_mix_long - 1]
+            else:
+                break
+
+        if s_mix_mul >= line_mul:
+            line_mul = s_mix_mul
+            kind = mix_kind
+            long = s_mix_long
+
+        if b_mix_mul >= line_mul:
+            line_mul = b_mix_mul
+            kind = mix_kind
+            long = b_mix_long
 
 
         oneline[Const.R_Line_Kind] = kind
@@ -140,8 +137,22 @@ class GameSlot(object):
         reel = Slot.GetReel(ReelSets[reel_idx], Config.Const.C_Shape).get_reel()
 
         result[Const.R_Reel] = reel
-        result.update(Slot.StandardLineEvaluator(totalbet,reel,Config.Const.C_PayLine, Config.Const.C_Paytable, Config.Const.C_BetLine, Config.Const.C_Wild_Sub, Config.Const.C_LineSym, Config.Wilds, Config.Wild).evaluate())
+        result.update(MixSymStandardLineEvaluator(totalbet,reel,Config.Const.C_PayLine, Config.Const.C_Paytable, Config.Const.C_BetLine, Config.Const.C_Wild_Sub, Config.Const.C_LineSym, Config.Wilds, Config.Wild).evaluate())
 
         return result
 
 
+# for x in Config.Const.C_LineSym + [Config.Bonus]:
+#     for y in Config.Const.C_LineSym + [Config.Bonus]:
+#         for z in Config.Const.C_LineSym + [Config.Bonus]:
+#             for m in Config.Const.C_LineSym + [Config.Bonus]:
+#                 for n in Config.Const.C_LineSym + [Config.Bonus]:
+#                     line_combo = [x, y, z, m, n]
+#                     oneline = {Const.R_Line_Combo: line_combo,Const.R_Line_Pos: [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0]]}
+#                     reel = []
+#                     line_result = MixSymStandardLineEvaluator(100000, reel, Config.Const.C_PayLine, Config.Const.C_Paytable,
+#                                                 Config.Const.C_BetLine, Config.Const.C_Wild_Sub,
+#                                                 Config.Const.C_LineSym, Config.Wilds, Config.Wild).evaluateLine(oneline)
+#                     line_mul = line_result[Const.R_Line_Mul]
+#                     if line_mul > 0:
+#                         print(x, y, z, m, n,'\t',line_mul)

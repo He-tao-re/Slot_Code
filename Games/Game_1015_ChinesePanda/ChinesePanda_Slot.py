@@ -19,14 +19,13 @@ class GameSlot(object):
 
         result = {}
         reel_idx = Util.randdict(Config.Base_Reel_Choose)
-        reel,bonus_reel = Slot.GetReel(Base_ReelSets[reel_idx], Config.Const.C_Shape).getdouble_reel()
+        reel = Slot.GetReel(Base_ReelSets[reel_idx], Config.Const.C_Shape).get_reel()
 
         result[Const.R_Reel] = reel
-        result[Const.R_Bonus_Reel] = bonus_reel
 
 
         sc_num = self.scatterwin(reel)
-        bonus_prize = self.get_bonus_prize(bonus_reel)
+        bonus_prize,bonus_num = self.get_bonus_prize(reel)
         # self.self_data[Const.C_Bonus_Prize] = bonus_prize
 
         #Scatter Win
@@ -34,8 +33,6 @@ class GameSlot(object):
             sc_win = totalbet * Config.Const.C_Paytable[Config.Scatter][sc_num-1]
         else:
             sc_win = 0
-
-        bonus_num = np.sum(bonus_reel)
 
 
         result.update(Slot.StandardLineEvaluator(totalbet,reel,Config.Const.C_PayLine, Config.Const.C_Paytable,
@@ -46,7 +43,7 @@ class GameSlot(object):
         result[Const.R_Self_Data] = copy.deepcopy(self.self_data)
 
         if bonus_num >= 6:
-            respin_result, respin_win, jackpot_hit, bn_num = Respin(bonus_reel,bonus_prize).respin()
+            respin_result, respin_win, jackpot_hit, bn_num = Respin(reel,bonus_prize).respin()
             result[Const.R_Respin] = respin_result
             result[Const.R_Respin_Win] = respin_win * totalbet
             result[Const.R_Jackpot_Hit] = jackpot_hit
@@ -65,12 +62,14 @@ class GameSlot(object):
 
     def get_bonus_prize(self,bonus_reel):
         bonus_prize = {}
+        bonus_num = 0
         for i in range(5):
             for j in range(3):
                 idx = j * 5 + i
-                if bonus_reel[i][j] == 1:
+                if bonus_reel[i][j] == Config.BN:
+                    bonus_num += 1
                     bonus_prize[idx] = Util.randdict(Config.Const.C_Bonus_Prize)
-        return bonus_prize
+        return bonus_prize,bonus_num
 
 
 class Respin(object):
@@ -96,12 +95,12 @@ class Respin(object):
             for x in range(5):
                 for y in range(3):
 
-                    if self.bonus_reel[x][y] == 0:
+                    if self.bonus_reel[x][y] != Config.BN:
 
                         idx = y * 5 + x
                         rand_num = random.random()
                         if rand_num < pos_pro[idx]:
-                            self.bonus_reel[x][y] = 1
+                            self.bonus_reel[x][y] = Config.BN
                             self.bonus_prize[idx] = Util.randdict(Config.Const.C_Bonus_Prize)
                             respin_time = 3
 
@@ -112,25 +111,22 @@ class Respin(object):
         for idx in double_win_pos:
             x = idx % 5
             y = idx // 5
-            if self.bonus_reel[x][y] == 1:
+            if self.bonus_reel[x][y] == Config.BN:
                 double_win_pos_hit += 1
+        bn_num = 0
+        for x in range(5):
+            for y in range(3):
+                if self.bonus_reel[x][y] == Config.BN:
+                    bn_num += 1
+
+
 
         respin_win = 0
         jackpot_hit = None
         if double_win_pos_hit == 3:
             for prize in self.bonus_prize.values():
                 respin_win += prize * 2
-            if np.sum(self.bonus_reel) == 13:
-                respin_win += Config.Const.C_Jackpot_Set[Const.C_Minor]
-                jackpot_hit = Const.C_Minor
 
-            elif np.sum(self.bonus_reel) == 14:
-                respin_win += Config.Const.C_Jackpot_Set[Const.C_Major]
-                jackpot_hit = Const.C_Major
-
-            elif np.sum(self.bonus_reel) == 15:
-                respin_win += Config.Const.C_Jackpot_Set[Const.C_Grand]
-                jackpot_hit = Const.C_Grand
 
 
         elif double_win_pos_hit < 3:
@@ -140,25 +136,25 @@ class Respin(object):
                 else:
                     respin_win += self.bonus_prize[idx]
 
-            if np.sum(self.bonus_reel) == 13:
-                respin_win += Config.Const.C_Jackpot_Set[Const.C_Minor]
-                jackpot_hit = Const.C_Minor
+        if bn_num == 13:
+            respin_win += Config.Const.C_Jackpot_Set[Const.C_Minor]
+            jackpot_hit = Const.C_Minor
 
-            elif np.sum(self.bonus_reel) == 14:
-                respin_win += Config.Const.C_Jackpot_Set[Const.C_Major]
-                jackpot_hit = Const.C_Major
+        elif bn_num == 14:
+            respin_win += Config.Const.C_Jackpot_Set[Const.C_Major]
+            jackpot_hit = Const.C_Major
 
-            elif np.sum(self.bonus_reel) == 15:
-                respin_win += Config.Const.C_Jackpot_Set[Const.C_Grand]
-                jackpot_hit = Const.C_Grand
-        bn_num = np.sum(self.bonus_reel)
+        elif bn_num == 15:
+            respin_win += Config.Const.C_Jackpot_Set[Const.C_Grand]
+            jackpot_hit = Const.C_Grand
+
         return respin_result, respin_win, jackpot_hit, bn_num
 
     def get_blank_pos(self):
         blank_pos = []
         for x in range(5):
             for y in range(3):
-                if self.bonus_reel[x][y] == 0:
+                if self.bonus_reel[x][y] != Config.BN:
                     idx = y * 5 + x
                     blank_pos.append(idx)
 

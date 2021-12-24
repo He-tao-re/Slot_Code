@@ -1,5 +1,7 @@
-import Slot_common.Const as Const
 import datetime
+import json
+
+import Slot_common.Const as Const
 import Games.Game_10039_Macau.Macau_Slot as Game_Slot
 
 
@@ -37,7 +39,7 @@ class TestCase(object):
             self.static_data[Const.S_Bet] += Total_bet
 
             result = Game_Slot.GameSlot(self.self_data).paidspin(Total_bet)
-
+            # print(json.dumps(result))
             if Const.R_Free in result.keys():
                 free_end = max(result[Const.R_Free].keys())
                 self.static_data[Const.S_FreeSpin] += free_end
@@ -51,8 +53,6 @@ class TestCase(object):
                 self.static_data[Const.S_Base_Hit] += 1
 
 
-
-
         return self.static_data
 
 def fun_1(Test_Time,Total_Bet):
@@ -63,7 +63,7 @@ def fun_1(Test_Time,Total_Bet):
 
 if __name__ == '__main__':
     start_time = datetime.datetime.now()
-    part_time = 1000000
+    part_time = 5000000
     total_bet = 1000
 
     data = fun_1(part_time,total_bet)

@@ -27,7 +27,7 @@ subdivide_data_file = '/Users/ht/Documents/Online_Data/Analyze_Data/subdivide_da
 
 
 #步骤3
-def static_data():
+def static_data(summary_data,Sub_data,Sum_Data):
 
     # 删除文件
     try:
@@ -158,4 +158,7 @@ def static_data():
         file.write(analyze_data_json + "\n")
         file.close()
 
-    common.rtp_depart(summary_store,subdivide_data_file)
+    if Sub_data is True:
+        common.rtp_depart(summary_store,subdivide_data_file)
+    if Sum_Data is True:
+        common.data_summary(summary_store,game_id,summary_data)

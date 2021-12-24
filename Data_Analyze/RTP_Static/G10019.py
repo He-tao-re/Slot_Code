@@ -27,7 +27,7 @@ subdivide_data_file = '/Users/ht/Documents/Online_Data/Analyze_Data/subdivide_da
 
 
 #步骤3
-def static_data():
+def static_data(summary_data,Sub_data,Sum_Data):
 
     # 删除文件
     try:
@@ -144,13 +144,16 @@ def static_data():
 
                 elif gameType == 3:
                     rtpType = rtpSave
-                    mul = winGold / collect_gold_save
-                    analyze_data[rtpType]["accumulative_win"] += winGold
-                    analyze_data[rtpType]["accumulative_mul"] += mul
+                    if collect_gold_save == 0:
+                        pass
+                    else:
+                        mul = winGold / collect_gold_save
+                        analyze_data[rtpType]["accumulative_win"] += winGold
+                        analyze_data[rtpType]["accumulative_mul"] += mul
 
 
-                    analyze_data[Variable.All_Spin]["accumulative_win"] += winGold
-                    analyze_data[Variable.All_Spin]["accumulative_mul"] += mul
+                        analyze_data[Variable.All_Spin]["accumulative_win"] += winGold
+                        analyze_data[Variable.All_Spin]["accumulative_mul"] += mul
 
         for k in [Variable.All_Spin, Variable.RTP120, Variable.RTP110, Variable.RTP100, Variable.RTP98, Variable.RTP96, Variable.RTP94, Variable.RTP90, Variable.RTP85, Variable.RTP80, Variable.RTP70, Variable.NOFEATURE, Variable.REWARD]:
             if analyze_data[k]['Spin'] != 0:
@@ -165,4 +168,7 @@ def static_data():
         file.write(analyze_data_json + "\n")
         file.close()
 
-    common.rtp_depart(summary_store,subdivide_data_file)
+    if Sub_data is True:
+        common.rtp_depart(summary_store,subdivide_data_file)
+    if Sum_Data is True:
+        common.data_summary(summary_store,game_id,summary_data)

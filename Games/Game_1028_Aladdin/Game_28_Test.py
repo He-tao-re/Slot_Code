@@ -1,6 +1,7 @@
 import Slot_common.Const as Const
 import datetime
 import Games.Game_1028_Aladdin.Aladdin_Slot as Game_Slot
+import Games.Game_1028_Aladdin.static_data as static
 import Slot_common.DataRecod as Data_deal
 import csv
 import json
@@ -28,6 +29,7 @@ class TestCase(object):
         self.bn_num = 0
         self.re_times = 0
 
+        self.mark_pos_num = 0
         self.self_data = {
             Const.R_Spin_Process: 0,
             Const.R_Collect_Mark: [
@@ -61,6 +63,7 @@ class TestCase(object):
             result = Game_Slot.GameSlot(self.self_data).paidspin(total_bet)
             self.self_data = result[Const.R_Self_Data]
 
+
             if Const.R_Free in result.keys():
                 free_end = max(result[Const.R_Free].keys())
                 self.free_spin_times += free_end
@@ -80,7 +83,8 @@ class TestCase(object):
 
                 self.bn_num += result[Const.R_Bonus_Num]
                 self.re_times += max(result[Const.R_Respin].keys())
-
+                if result[Const.R_Bonus_Num] == 20:
+                    self.jackpot_count[Const.C_Grand] += 1
             if print_json is True:
                 print(json.dumps(result))
 
@@ -125,13 +129,15 @@ class TestCase(object):
 
         print('Base RTP：{rtp}'.format(rtp=self.base_win / self.all_bet))
         print('Hit Rate：{rate}'.format(rate=self.base_hit / test_time))
-
+        print(f'Avg Mark Pos Num：{self.mark_pos_num / test_time * 10}')
         print('===========')
         print('Free RTP：{}'.format(self.free_win / self.all_bet))
         print('Free间隔：{}'.format(test_time/self.free_hit))
         print('Free倍数：{}'.format(self.free_win/total_bet/self.free_hit))
         print('平均Free次数：{}'.format(self.free_spin_times/self.free_hit))
-
+        print(f'Free Feature间隔：{self.free_spin_times/static.free_feature_hit}')
+        print(f'Free Feature平均倍数：{static.free_feature_win/static.free_feature_hit/total_bet}')
+        print(f'Free Line Win倍数：{static.free_line_win / self.free_hit / total_bet}')
         print('===========')
 
         print("Respin RTP: {}".format(self.respin_win / self.all_bet))
@@ -139,6 +145,10 @@ class TestCase(object):
         print("Respin间隔：{}".format(test_time / self.respin_hit))
         print("Bonus平均个数：{}".format(self.bn_num/self.respin_hit))
         print("Respin平均次数：{}".format(self.re_times/self.respin_hit))
+        print(f"Grand触发次数：{self.jackpot_count[Const.C_Grand]}")
+
+        print('===========')
+
         print('Spend Time：{}'.format((end_time - start_time).seconds))
 
 
