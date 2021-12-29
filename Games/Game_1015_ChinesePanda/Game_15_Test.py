@@ -146,4 +146,4 @@ class TestCase(object):
 
 
 if __name__ == '__main__':
-    TestCase().test(1000000, 1000, recoder=False, sym_count=False, print_json=False)
+    TestCase().test(1000000, 1000, recoder=False, sym_count=False, print_json=True)

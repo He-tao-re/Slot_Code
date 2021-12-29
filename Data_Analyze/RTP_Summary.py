@@ -28,6 +28,9 @@ import Data_Analyze.RTP_Static.G10023 as RTP_Static_G10023
 import Data_Analyze.RTP_Static.G10024 as RTP_Static_G10024
 import Data_Analyze.RTP_Static.G10025 as RTP_Static_G10025
 import Data_Analyze.RTP_Static.G10029 as RTP_Static_G10029
+
+
+import Data_Analyze.RTP_Static.G10036 as RTP_Static_G10036
 import xlwings as xw
 import openpyxl
 summary_data = '/Users/ht/Documents/Online_Data/Analyze_Data/Summary_Data.xlsx'
@@ -109,6 +112,10 @@ def rtp_data(Sub_Data,Sum_Data):
     RTP_Static_G10025.static_data(summary_data,Sub_Data,Sum_Data)
     # print(10029)
     # RTP_Static_G10029.static_data(summary_data,Sub_Data,Sum_Data)
+
+    print(10036)
+    RTP_Static_G10036.static_data(summary_data,Sub_Data,Sum_Data)
+
 
 
 def final_data(Key):

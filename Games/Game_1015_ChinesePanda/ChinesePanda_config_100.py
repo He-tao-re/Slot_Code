@@ -2,8 +2,8 @@ import Slot_common.Const as Const
 import Slot_common.LinesConfig as Lines
 
 Const.C_Shape = [3, 3, 3, 3, 3]
-Const.C_BetLine = 20
-Const.C_PayLine = Lines.Line_20_3X5_TYPE1
+Const.C_BetLine = 50
+Const.C_PayLine = Lines.LINE_50_3X5_TYPE1
 
 
 Base_Reel_Choose = {0:500, 1:500}

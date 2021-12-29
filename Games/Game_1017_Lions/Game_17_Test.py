@@ -143,6 +143,7 @@ class TestCase(object):
         print('平均gold buffalo数量：' + str(average_gold_buffalo))
         print('wheel rtp：' + str(wheel_rtp))
         print(self.free_extra_count)
+        print('====================')
         if sym_count is True:
             sym_list = self.base_sym_win.keys()
             for sym in sorted(self.base_sym_win.keys()):

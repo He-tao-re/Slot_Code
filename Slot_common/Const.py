@@ -15,6 +15,7 @@ S_Extra_Win_Hit = "Extra_Win_Hit"
 
 S_Free_Hit = "Free_Hit"
 S_Free_Win = "Free_Win"
+S_Free_Win_Hit = "Free_Win_Hit"
 S_Free_Spin_Times = "Free_Spins"
 S_Free_Extra_Win = "Free_Extra_Win"
 S_Free_Extra_Hit = "Free_Extra_Hit"
@@ -36,11 +37,20 @@ S_Feature_Win_Time = "Feature_Win_Time"
 S_Feature_Extra_Win = "Feature_Extra_Win"
 S_Feature_Extra_Hit = "Feature_Extra_Hit"
 
+S_Feature_Sym_Count = "Feature_Sym_Count"
+
+
 S_Collect_Win = "Collect_Win"
 S_Collect_Hit = "Collect_Hit"
 
 S_Jackpot_Hit = "Jackpot_Hit"
 S_Jackpot_Win = "Jackpot_Win"
+
+S_Grand = "Grand"
+S_Major = "Major"
+S_Minor = "Minor"
+S_Mini = "Mini"
+
 
 
 
@@ -167,6 +177,7 @@ C_Free_Shape = "Free_Shape"
 C_ReelSets = "ReelSets"
 C_Base_ReelSets = "Base_ReelSets"
 C_Free_ReelSets = "Free_ReelSets"
+C_Classic_ReelSets = "Classic_ReelSets"
 C_Super_ReelSets = "Super_ReelSets"
 
 
@@ -188,6 +199,7 @@ R_Respin_Reel = 'Respin_Reel'
 R_Respin = 'Respin'
 R_Super_Respin = 'Super_Respin'
 R_Respin_Win = 'Respin_Win'
+R_Respin_Account = "Respin_Account"
 R_Respin_Times = 'Respin_Times'
 R_Respin_Total_Time = "Respin_Total_Time"
 R_Respin_New_Pos = 'New_Pos'
