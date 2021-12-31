@@ -1,23 +1,44 @@
+import Slot_common.Const as Const
 
 data = {
-    "test_time": 0,
-    "all_bet": 0,
-    "all_win": 0,
-    "base_win": 0,
-    "base_hit": 0,
-    "base_sym_win": 0,
-    "free_win": 0,
-    "free_hit": 0,
-    "free_spin_times": 0,
-    "bingo_hit": 0,
-    "bingo_win": 0,
-    "free_bingo_hit": 0,
-    "free_bingo_win": 0,
-    "base_wheel_hit": 0,
-    "base_wheel_win": 0,
-    "free_wheel_hit": 0,
-    "free_wheel_win": 0,
-    "base_bonus_num": 0
+    Const.S_Test_Time: 0,
+
+    Const.S_Bet: 0,
+    Const.S_Win: 0,
+
+    Const.S_Base_Win: 0,
+    Const.S_Base_Hit: 0,
+    Const.S_Base_Sym_Win: 0,
+
+    Const.S_Free_Hit: 0,
+    Const.S_Free_Win_Hit: 0,
+    Const.S_Free_Win: 0,
+    Const.S_FreeSpin: 0,
+
+    Const.S_Mega_Free_Spin_Times:0,
+    Const.S_Mega_Free_Win:0,
+
+    Const.S_Super_Free_Spin_Times:0,
+    Const.S_Super_Free_Win:0,
+
+    Const.S_Feature_Hit: 0,
+    Const.S_Feature_Win: 0,
+    Const.S_Feature_Spin: 0,
+    Const.S_Feature_Sym_Count: 0,
+
+    Const.S_Free_Feature_Hit: 0,
+    Const.S_Free_Feature_Win: 0,
+
+    Const.S_Wheel_Hit:0,
+    Const.S_Wheel_Win:0,
+
+    Const.S_Free_Wheel_Hit: 0,
+    Const.S_Free_Wheel_Win: 0,
+
+    Const.S_Grand: 0,
+    Const.S_Major: 0,
+    Const.S_Minor: 0,
+    Const.S_Mini: 0,
 }
 
 

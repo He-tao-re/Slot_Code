@@ -20,11 +20,23 @@ S_Free_Spin_Times = "Free_Spins"
 S_Free_Extra_Win = "Free_Extra_Win"
 S_Free_Extra_Hit = "Free_Extra_Hit"
 
+S_Mega_Free_Spin_Times = "Mega_Free_Hit"
+S_Mega_Free_Win = "Mega_Free_Win"
+
+S_Super_Free_Spin_Times = "Super_Free_Hit"
+S_Super_Free_Win = "Super_Free_Win"
+
 S_Free_Feature_Win = "Free_Feature_Win"
 S_Free_Feature_Hit = "Free_Feature_Hit"
 S_Free_Feature_Spin = "Free_Feature_Spin"
 S_Free_Feature_Extra_Win = "Free_Feature_Extra_Win"
 S_Free_Feature_Extra_Hit = "Free_Feature_Extra_Hit"
+
+S_Wheel_Win = "Wheel_Win"
+S_Wheel_Hit = "Wheel_Hit"
+
+S_Free_Wheel_Hit = "Free_Wheel_Hit"
+S_Free_Wheel_Win = "Free_Wheel_Win"
 
 S_FreeSpin = "Accumulative_FS"
 

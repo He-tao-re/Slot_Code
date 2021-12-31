@@ -51,7 +51,7 @@ def run(test_time,p_idx):
 if __name__ == '__main__':
 
     start_time = datetime.datetime.now()
-    test_time = 500000
+    test_time = 1000000
 
 
     p_1 = multiprocessing.Process(target=run,args=(test_time,1,))
@@ -88,26 +88,34 @@ if __name__ == '__main__':
             sum_data[k] += sub_data[k]
 
     total_bet = 12000
-    print("Total RTP：{}".format((sum_data['all_win']) / sum_data['all_bet']))
+    print(f"Total RTP：{sum_data[Const.S_Win] / sum_data[Const.S_Bet]}")
     print('===========')
 
-    print('Base RTP：{}'.format(sum_data['base_win'] / sum_data['all_bet']))
-    print('Hit Rate：{}'.format(sum_data['base_hit'] / sum_data['test_time']))
-    print(f"平均Bonus数量：{sum_data['base_bonus_num'] / sum_data['test_time']}")
+    print(f'Base RTP：{sum_data[Const.S_Base_Win] / sum_data[Const.S_Bet]}')
+    print(f"Hit Rate：{sum_data[Const.S_Base_Hit] / sum_data[Const.S_Test_Time]}")
+    # print(f"平均Bonus数量：{sum_data[] / sum_data[]}")
     print('===========')
-    print('Free RTP：{}'.format((sum_data['free_win'] + sum_data['free_bingo_win']) / sum_data['all_bet']))
-    print('Free间隔：{}'.format(sum_data['test_time'] / sum_data['free_hit']))
-    print('Free倍数：{}'.format((sum_data['free_win'] + sum_data['free_bingo_win']) / sum_data['free_hit'] / total_bet))
-    print('平均Free次数：{}'.format(sum_data['free_spin_times'] / sum_data['free_hit']))
-    print("Free Bingo间隔：{}".format(sum_data['free_spin_times'] / sum_data['free_bingo_hit']))
-    print("Free Bingo RTP：{}".format(sum_data['free_bingo_win'] / sum_data['all_bet']))
-    print(f"Free平均Bingo触发次数：{sum_data['free_bingo_hit']/sum_data['free_hit']}")
+    print(f'Free RTP：{(sum_data[Const.S_Free_Win] + sum_data[Const.S_Mega_Free_Win] + sum_data[Const.S_Super_Free_Win]) / sum_data[Const.S_Bet]}')
+    print(f'Free间隔：{sum_data[Const.S_Test_Time] / sum_data[Const.S_Free_Hit]}')
+    print(f'Free倍数：{(sum_data[Const.S_Free_Win] + sum_data[Const.S_Mega_Free_Win] + sum_data[Const.S_Super_Free_Win])/ sum_data[Const.S_Free_Hit] / total_bet}')
+    print(f'平均Free次数：{sum_data[Const.S_FreeSpin] / sum_data[Const.S_Free_Hit]}')
+    print(f"Free Bingo RTP：{sum_data[Const.S_Free_Feature_Win] / sum_data[Const.S_Bet]}")
+    print(f"Free平均Bingo触发次数：{sum_data[Const.S_Free_Feature_Hit]/sum_data[Const.S_Free_Hit]}")
     print('===========')
-    print("Bingo RTP: {}".format(sum_data['bingo_win'] / sum_data['all_bet']))
-    print("Bingo倍数：{}".format(sum_data['bingo_win'] / sum_data['bingo_hit'] / total_bet))
-    print("Bingo间隔：{}".format(sum_data['test_time'] / sum_data['bingo_hit']))
-    
+    print(f"Bingo RTP: {sum_data[Const.S_Feature_Win] / sum_data[Const.S_Bet]}")
+    print(f"Bingo倍数：{sum_data[Const.S_Feature_Win] / sum_data[Const.S_Feature_Hit] / total_bet}")
+    print(f"Bingo间隔：{sum_data[Const.S_Test_Time] / sum_data[Const.S_Feature_Hit]}")
+    print('===========')
+    print(f"Free Bingo RTP: {sum_data[Const.S_Free_Feature_Win] / sum_data[Const.S_Bet]}")
+    print(f"Free Bingo倍数：{sum_data[Const.S_Free_Feature_Win] / sum_data[Const.S_Free_Feature_Hit] / total_bet}")
+    print(f"Free Bingo间隔：{sum_data[Const.S_FreeSpin] / sum_data[Const.S_Free_Feature_Hit]}")
+
+    # print('===========已经计入上面的部分=======')
+    # print(f"Wheel RTP：{sum_data['base_wheel_win'] / sum_data['all_bet']}")
+    # print(f"Wheel平均倍数：{sum_data['base_wheel_win'] / sum_data['base_wheel_hit'] / total_bet}")
+    # print(f"Wheel触发占比：{sum_data['base_wheel_hit'] / sum_data['bingo_hit']}")
+
     end_time = datetime.datetime.now()
     spend_time = (end_time - start_time).seconds
-    print(f"Test_Time：{sum_data['test_time']}")
+    print(f"Test_Time：{sum_data[Const.S_Test_Time]}")
     print('Spend Time：' + str(spend_time) + 's')
