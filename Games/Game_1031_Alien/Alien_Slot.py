@@ -92,7 +92,6 @@ class RespinGame(object):
             4: [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]],
         }
 
-
     def allocate_pro(self):
         pro_list = copy.deepcopy(Config.Const.C_Blank_Pos_Pro)
 
@@ -112,7 +111,6 @@ class RespinGame(object):
                     if self.bonus_reel[i+1][x][y] != 0:
                         count_blank[i] += 1
         return count_blank
-
 
     def balance_respin(self):
         respin_mul = 0

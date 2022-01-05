@@ -22,7 +22,7 @@ def depart():
     shutil.rmtree("/Users/ht/Documents/Online_Data/Games_Users_Data")
     os.mkdir("/Users/ht/Documents/Online_Data/Games_Users_Data")
     num = 0
-    print(original_file_list)
+    # print(original_file_list)
     for original_file in original_file_list:
         if original_file[-3:] == "log":
             file_object = open(original_file,'r', encoding='UTF-8',newline='')
@@ -39,6 +39,8 @@ def depart():
                 json_data = json.dumps(dict_data)
                 game_id = dict_data["data"]["gameId"]
                 uid = dict_data["data"]["uid"]
+                gameType = dict_data['data']['gameType']
+
                 try:
                     dir_path = "/Users/ht/Documents/Online_Data/Games_Users_Data/" + str(game_id)
                     os.mkdir(dir_path)

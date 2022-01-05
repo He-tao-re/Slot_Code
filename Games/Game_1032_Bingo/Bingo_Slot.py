@@ -9,6 +9,9 @@ import copy
 Base_ReelSets = Slot.DealReel().ReelStrip(Config.Const.C_Base_ReelSets)
 
 def get_initial_bonus_prize():
+
+    #获取初始Bingo盘面
+
     bonus_prize = {}
     initial_num = Util.randlist(Config.Initial_Num_Weight)
     pos_list = random.sample([0,1,2,3,4,5,6,7,8,9,10,11,13,14,15,16,17,18,19,20,21,22,23,24],initial_num)
@@ -20,6 +23,8 @@ def get_initial_bonus_prize():
     return bonus_prize
 
 def get_bonus_prize(reel):
+    #获取Bingo图标伤的数值
+
     bonus_prize = {}
     for x in range(5):
         for y in range(5):
@@ -29,6 +34,8 @@ def get_bonus_prize(reel):
     return bonus_prize
 
 def judge_bingo_hit(self_data):
+    #判断Bingo触发，重叠位置要计算多次奖励
+
     bingo_line = [
         [0,1,2,3,4],
         [5,6,7,8,9],
@@ -61,6 +68,10 @@ def scatter_count(reel):
     return sc_num
 
 def get_reel(ReelSet):
+    #获得盘面结果 1、2、4、5列每列有3个位置用第一套转轮配置，1个位置用第二套转轮配置，1个位置用第三套转轮配置
+    # 3列每列有2个位置用第一套转轮配置，1个位置用第二套转轮配置，1个位置用第三套转轮配置
+    # 乱序，乱序之后插入固定的wild
+
     ReelStrip = ReelSet[Const.C_ReelStrip]
     reel = []
 

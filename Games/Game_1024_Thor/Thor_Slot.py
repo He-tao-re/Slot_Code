@@ -1,6 +1,7 @@
 import random
 import Games.Game_1024_Thor.Thor_config_100 as Config
 import Slot_common.Slots as Slot
+import Games.Game_1024_Thor.static_data_1024 as static_data
 import util.Util as Util
 import Slot_common.Const as Const
 import copy
@@ -8,6 +9,8 @@ import copy
 
 Base_ReelSets = Slot.DealReel().ReelStrip(Config.Const.C_ReelSets)
 Game_Set = Config.Const.C_Game_Set
+
+s_data = static_data.data
 
 class GameSlot(object):
     def __init__(self,self_data):
@@ -81,6 +84,33 @@ class GameSlot(object):
                 result[Const.R_Super_Free], result[Const.R_Free_Win_Amount], self.self_data = self.super_free_result(free_spins,totalbet,feature_shape)
                 result[Const.R_Feature_Shape] = feature_shape
         result[Const.R_Self_Data] = copy.deepcopy(self.self_data)
+
+        """统计部分"""
+        s_data[Const.S_Test_Time] += 1
+        s_data[Const.S_Bet] += totalbet
+        s_data[Const.S_Base_Win] += result[Const.R_Win_Amount]
+
+        s_data[Const.S_Win] += result[Const.R_Win_Amount]
+
+        if result[Const.R_Win_Amount] > 0:
+            s_data[Const.S_Base_Hit] += 1
+
+        if Const.R_Free in result.keys():
+            s_data[Const.S_Free_Hit] += 1
+            s_data[Const.S_Free_Win] += result[Const.R_Free_Win_Amount]
+
+            s_data[Const.S_Win] += result[Const.R_Free_Win_Amount]
+
+        if Const.R_Super_Free in result.keys():
+            s_data[Const.S_Super_Free_Hit] += 1
+            s_data[Const.S_Super_Free_Win] += result[Const.R_Free_Win_Amount]
+
+            s_data[Const.S_Win] += result[Const.R_Free_Win_Amount]
+
+            '''分支统计'''
+            shape_idx = static_data.shape_list.index(result[Const.R_Feature_Shape])
+            s_data[Const.S_Extra_Win][shape_idx][0] += result[Const.R_Free_Win_Amount]
+            s_data[Const.S_Extra_Win][shape_idx][1] += 1
 
         return result, self.self_data
 

@@ -75,7 +75,6 @@ def rtp_depart(summary_store,subdivide_data_file):
 
             num += 1
 
-            cell = 'a' + str(num)
 
             uid = list(user_data_dic.keys())[0]
             spinTimes = user_data_dic[uid][rtpType]["Spin"]
