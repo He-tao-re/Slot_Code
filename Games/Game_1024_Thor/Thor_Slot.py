@@ -25,7 +25,10 @@ class GameSlot(object):
         #统计scatter数量
         self.special_sym_count(reel)
 
-        mark_num = sum(self.self_data[Const.R_Reel_Mark].values())
+        mark_num = 0
+        for value in self.self_data[Const.R_Reel_Mark].values():
+            if value == 1:
+                mark_num += 1
         # print(self.self_data[Const.R_Reel_Mark])
 
         mark_random = random.random()
@@ -44,6 +47,9 @@ class GameSlot(object):
 
 
             for pos in random_mark_pos:
+                if pos >= 22:
+                    print(random_mark_pos)
+                    print(pos,"false")
                 self.self_data[Const.R_Reel_Mark][pos] = 1
         else:
             pass

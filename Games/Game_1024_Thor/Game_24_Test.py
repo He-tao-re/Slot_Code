@@ -29,7 +29,7 @@ class TestCase(object):
 
         self.self_data = {
             Const.R_Free_Collect: 0,
-            Const.R_Reel_Mark: {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0, 13: 0, 14: 0, 15: 0, 16: 0, 17: 0, 18: 1, 19: 0, 20: 0, 21: 0}
+            Const.R_Reel_Mark: {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0, 13: 0, 14: 0, 15: 0, 16: 0, 17: 0, 18: 0, 19: 0, 20: 0, 21: 0}
         }
 
 
@@ -65,7 +65,7 @@ if __name__ == '__main__':
 
     start_time = datetime.datetime.now()
     total_bet = 12000
-    test_time = 1000000
+    test_time = 500000
 
     p_1 = multiprocessing.Process(target=run,args=(test_time,1,))
     p_2 = multiprocessing.Process(target=run,args=(test_time,2,))
