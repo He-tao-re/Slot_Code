@@ -39,7 +39,7 @@ def depart():
                 json_data = json.dumps(dict_data)
                 game_id = dict_data["data"]["gameId"]
                 uid = dict_data["data"]["uid"]
-                gameType = dict_data['data']['gameType']
+                # gameType = dict_data['data']['gameType']
 
                 try:
                     dir_path = "/Users/ht/Documents/Online_Data/Games_Users_Data/" + str(game_id)

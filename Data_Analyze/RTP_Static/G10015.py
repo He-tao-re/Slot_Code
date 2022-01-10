@@ -68,7 +68,15 @@ def static_data(summary_data,Sub_data,Sum_Data):
             testModel = data_dic["data"]['attachInfo']['testModel']
 
             betGold = data_dic["data"]["betGold"]
-            winGold = data_dic["data"]["winGold"]
+
+            line_win = data_dic["data"]["lineWinGold"]
+
+            if gameType == 2 or gameType == 3 or gameType == 4:
+                sc_win = 0
+            else:
+                sc_win = data_dic["data"]["scatterWinGold"]
+
+            winGold = line_win + sc_win
 
             bet_times = testModel["spinTimes"]
 
@@ -140,6 +148,18 @@ def static_data(summary_data,Sub_data,Sum_Data):
 
                 elif gameType == 3:
                     rtpType = rtpSave
+                    betGold = data_dic["data"]["betGold"]
+                    mul = winGold / betGold
+                    analyze_data[rtpType]["accumulative_win"] += winGold
+                    analyze_data[rtpType]["accumulative_mul"] += mul
+
+
+                    analyze_data[Variable.All_Spin]["accumulative_win"] += winGold
+                    analyze_data[Variable.All_Spin]["accumulative_mul"] += mul
+
+                elif gameType == 4:
+                    rtpType = rtpSave
+                    betGold = data_dic["data"]["betGold"]
                     mul = winGold / betGold
                     analyze_data[rtpType]["accumulative_win"] += winGold
                     analyze_data[rtpType]["accumulative_mul"] += mul

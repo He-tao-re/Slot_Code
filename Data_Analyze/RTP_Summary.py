@@ -46,7 +46,7 @@ def test_rtp_data(Sub_Data,Sum_Data):
         wb.save(summary_data)
     print(10002)
 
-    RTP_Static_G10002.static_data(summary_data,Sub_Data,Sum_Data)
+    RTP_Static_G10015.static_data(summary_data,Sub_Data,Sum_Data)
 
 
 def rtp_data(Sub_Data,Sum_Data):
@@ -93,7 +93,8 @@ def rtp_data(Sub_Data,Sum_Data):
     RTP_Static_G10013.static_data(summary_data,Sub_Data,Sum_Data)
     print(10014)
     RTP_Static_G10014.static_data(summary_data,Sub_Data,Sum_Data)
-    # RTP_Static_G10015.static_data(summary_data,Sub_Data,Sum_Data)
+    print(10015)
+    RTP_Static_G10015.static_data(summary_data,Sub_Data,Sum_Data)
     print(10016)
     RTP_Static_G10016.static_data(summary_data,Sub_Data,Sum_Data)
     print(10017)

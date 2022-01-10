@@ -43,7 +43,7 @@ if __name__ == '__main__':
 
     start_time = datetime.datetime.now()
     total_bet = 12000
-    test_time = 500000
+    test_time = 1000000
 
     p_1 = multiprocessing.Process(target=run,args=(test_time,total_bet,1,))
     p_2 = multiprocessing.Process(target=run,args=(test_time,total_bet,2,))
@@ -109,3 +109,4 @@ if __name__ == '__main__':
     spend_time = (end_time - start_time).seconds
     print(f"Test_Time：{sum_data[Const.S_Test_Time]}")
     print('Spend Time：' + str(spend_time) + 's')
+    print(f"开始时间：{start_time}")

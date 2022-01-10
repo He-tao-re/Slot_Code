@@ -33,9 +33,6 @@ class TestCase(object):
         }
 
 
-
-
-
     def test(self, test_time, p_idx):
         times = 0
         while times < test_time:

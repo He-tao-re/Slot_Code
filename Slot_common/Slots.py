@@ -264,9 +264,6 @@ class StandardLineEvaluator(object):
                     oneline[Const.R_Line_Mul] *= wild_mul
                     oneline[Const.R_Line_Win] *= wild_mul
 
-
-
-
                 winAmount += oneline[Const.R_Line_Win]
                 line_result[Const.R_Line].append(oneline)
         line_result[Const.R_Line_WinAmount] = winAmount
