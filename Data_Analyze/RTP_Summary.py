@@ -1,6 +1,7 @@
 import os
 import openpyxl
 import Data_Analyze.RTP_Static as RTP_Static
+import Data_Analyze.User_Spin_Count as User_Spin
 
 import Data_Analyze.RTP_Static.G10001 as RTP_Static_G10001
 import Data_Analyze.RTP_Static.G10002 as RTP_Static_G10002
@@ -69,7 +70,8 @@ def rtp_data(Sub_Data,Sum_Data):
     app.quit()
 
     # # 机台RTP数据统计
-    # RTP_Static_G10001.static_data(summary_data,Sub_Data,Sum_Data)
+    print(10001)
+    RTP_Static_G10001.static_data(summary_data,Sub_Data,Sum_Data)
 
     print(10002)
     RTP_Static_G10002.static_data(summary_data,Sub_Data,Sum_Data)
@@ -111,8 +113,8 @@ def rtp_data(Sub_Data,Sum_Data):
     RTP_Static_G10022.static_data(summary_data,Sub_Data,Sum_Data)
     print(10025)
     RTP_Static_G10025.static_data(summary_data,Sub_Data,Sum_Data)
-    # print(10029)
-    # RTP_Static_G10029.static_data(summary_data,Sub_Data,Sum_Data)
+    print(10029)
+    RTP_Static_G10029.static_data(summary_data,Sub_Data,Sum_Data)
 
     print(10036)
     RTP_Static_G10036.static_data(summary_data,Sub_Data,Sum_Data)
@@ -148,4 +150,27 @@ def final_data(Key):
             write_sheet.cell(row_num,8,f'={game_id}!O50')
             write_sheet.cell(row_num,9,f'={game_id}!O51')
             row_num += 1
+
+        # 玩家Spin数据统计
+        write_sheet_2 = wb.create_sheet('User_Spin')
+
+        uid_list = sorted(User_Spin.User_Spin_Count.keys())
+
+        game_list = [10001, 10002, 10005, 10008, 10009, 10010, 10011, 10012, 10013, 10014, 10015, 10016, 10017, 10018, 10019, 10020, 10021, 10022, 10025, 10029, 10036]
+
+        write_sheet_2.cell(1, 1, "uid")
+        write_sheet_2.cell(1, 2, "Sum")
+
+        for game_id_idx in range(len(game_list)):
+            write_sheet_2.cell(1, game_id_idx+3, game_list[game_id_idx])
+
+        for uid_idx in range(len(uid_list)):
+            uid = uid_list[uid_idx]
+            write_sheet_2.cell(uid_idx+2,1,uid)
+            write_sheet_2.cell(uid_idx+2,2,f"=sum(C{uid_idx+2}:AZ{uid_idx+2})")
+
+            for k,v in User_Spin.User_Spin_Count[uid].items():
+                col_idx = game_list.index(k) + 3
+                write_sheet_2.cell(uid_idx+2,col_idx,v)
+
         wb.save(summary_data)

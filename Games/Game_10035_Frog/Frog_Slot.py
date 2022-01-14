@@ -66,7 +66,8 @@ class GameSlot(object):
             for pos in sc_pos:
                 sc_mul += pos[-1]
             # print('free Begin',sc_mul)
-
+            s_data['Sc_num_1'] += sc_num
+            s_data['Sc_num_2'] += sc_mul
             result[Const.R_Free], result[Const.R_Free_Win_Amount] = FreeGame(self_data={},freespins=7,sc_mul=sc_mul).free(totalbet)
         """统计部分"""
         s_data[Const.S_Test_Time] += 1
@@ -121,6 +122,7 @@ class FreeGame(object):
                     reel[i][j] = Config.Wild
         sc_num, sc_pos = scatter_count(reel)
         # print(self.lock_wild)
+        # print(self.wild_local_weight)
         # Scatter Win
 
         if sc_num >= 1:
@@ -129,7 +131,7 @@ class FreeGame(object):
             sc_win = 0
 
         if sc_num >= 3:
-            self.freespins += 7
+            self.freespins += 3
 
         #第一次free，乘倍wild落点固定
         if free_recoder == 1:
@@ -141,8 +143,8 @@ class FreeGame(object):
             if self.sc_mul >= 1:
                 lock_wild_pos = self.wild_dance()
                 del self.wild_local_weight[lock_wild_pos]
-                x = lock_wild_pos % 5
-                y = lock_wild_pos // 5
+                x = lock_wild_pos // 3
+                y = lock_wild_pos % 3
                 # print(x,y,lock_wild_pos)
                 # print(f"X:{x} \t Y:{y} \t Pos:{lock_wild_pos}")
                 reel[x][y] = Config.M_Wild
@@ -154,12 +156,14 @@ class FreeGame(object):
                                                  Config.Const.C_BetLine, Config.Const.C_Wild_Sub,
                                                  Config.Const.C_LineSym,
                                                  Config.Wilds, Config.Wild).mul_wild_evaluate(Config.M_Wild,self.sc_mul))
+
         self.sc_mul -= 1
 
         result[Const.R_Scatter_Win] = sc_win
         result[Const.R_Win_Amount] += sc_win
         result[Const.R_Self_Data] = copy.deepcopy(self.self_data)
 
+        s_data[Const.S_FreeSpin] += 1
         return result
 
 
@@ -179,7 +183,7 @@ class FreeGame(object):
             free_spin = self.freespin(totalbet,free_recoder)
             free_win_amount += free_spin[Const.R_Win_Amount]
             free_spin[Const.R_Free_Win_Amount] = copy.deepcopy(free_win_amount)
-            # print(json.dumps(free_spin))
+            print(json.dumps(free_spin))
             free_result[free_recoder] = free_spin
 
         return free_result,free_win_amount

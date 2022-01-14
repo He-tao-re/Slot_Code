@@ -27,30 +27,15 @@ data = {
     Const.S_Free_Win: 0,
     Const.S_FreeSpin: 0,
 
-    Const.S_Mega_Free_Spin_Times:0,
-    Const.S_Mega_Free_Win:0,
-
-    Const.S_Super_Free_Hit: 0,
-    Const.S_Super_Free_Spin_Times:0,
-    Const.S_Super_Free_Win:0,
-
-    Const.S_Feature_Hit: 0,
-    Const.S_Feature_Win: 0,
-    Const.S_Feature_Spin: 0,
-    Const.S_Feature_Sym_Count: 0,
-
-    Const.S_Free_Feature_Hit: 0,
-    Const.S_Free_Feature_Win: 0,
-
-    Const.S_Wheel_Hit:0,
-    Const.S_Wheel_Win:0,
-
-    Const.S_Free_Wheel_Hit: 0,
-    Const.S_Free_Wheel_Win: 0,
-
     Const.S_Grand: 0,
     Const.S_Major: 0,
     Const.S_Minor: 0,
     Const.S_Mini: 0,
+
+    Const.S_Count_Num_1: 0,
+    Const.S_Count_Num_2: 0,
+    Const.S_Count_Num_3: 0,
+    Const.S_Count_Num_4: 0,
+    Const.S_Count_Num_5: 0,
 }
 

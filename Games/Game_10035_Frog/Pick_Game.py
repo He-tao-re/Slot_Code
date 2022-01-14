@@ -53,6 +53,11 @@ while time < Test_Time:
 
     while Pick_Time > 0:
         Pick_Time = Pick_Time - 1
+
+
+        # print(Pick_Time)
+        # print(Pick_List_Weight)
+
         Pick_Get = Util.randdict(Pick_List_Weight)
         del Pick_List_Weight[Pick_Get]
         Reward_Gotten.append(Pick_Get)
@@ -69,7 +74,7 @@ while time < Test_Time:
 
 
 
-
+    # print(Reward_Gotten)
     for element in Reward_Gotten:
         Reward_Mul_Gotten.append(Corresponding_Ward[element])
 

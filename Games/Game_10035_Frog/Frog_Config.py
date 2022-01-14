@@ -53,14 +53,6 @@ L6 = 11
 
 M_Wild = 100
 
-#Jackpot
-Grand = 1000
-Major = 500
-Minor = 20
-Mini = 5
-
-
-
 Scatter = 90
 Wilds = [Wild,M_Wild]
 
@@ -68,7 +60,7 @@ Const.C_Wild_Sub = [H1,H2,H3,H4,H5,L1,L2,L3,L4,L5,L6]
 Const.C_LineSym = [Wild,M_Wild,H1,H2,H3,H4,H5,L1,L2,L3,L4,L5,L6]
 
 Scatter_Mul = [[7,1],[6,5],[5,10],[4,20],[3,40],[2,100],[1,200]]
-Wild_Dance = {0:1,1:3,2:8,3:15,4:20,5:1,6:2,7:3,8:10,9:0,10:1,11:3,12:8,13:15,14:20}
+Wild_Dance = {0:1,3:3,6:8,9:15,12:20,1:1,4:2,7:3,10:10,13:0,2:1,5:3,8:8,11:15,14:20}
 
 Const.C_Paytable = {
     Wild:[0,10,25,150,400],

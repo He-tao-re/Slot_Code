@@ -43,7 +43,7 @@ class TestCase(object):
                     print(str(int(times / test_time * 100)) + ' %')
 
             result,self.self_data = Game_Slot.GameSlot(self.self_data).paidspin(total_bet)
-
+            print(json.dumps(result))
         file_name = str(p_idx)
         try:
             os.remove(file_name)
@@ -61,8 +61,8 @@ def run(Test_Time, p_idx):
 if __name__ == '__main__':
 
     start_time = datetime.datetime.now()
-    total_bet = 12000
-    test_time = 500000
+    total_bet = 400000000
+    test_time = 1
 
     p_1 = multiprocessing.Process(target=run,args=(test_time,1,))
     p_2 = multiprocessing.Process(target=run,args=(test_time,2,))

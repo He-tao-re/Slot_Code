@@ -24,8 +24,15 @@ S_Mega_Free_Spin_Times = "Mega_Free_Hit"
 S_Mega_Free_Win = "Mega_Free_Win"
 
 S_Super_Free_Hit = "Super_Free_Hit"
-S_Super_Free_Spin_Times = "Super_Free_Spins"
+S_Super_Free_Spin = "Super_Free_Spins"
 S_Super_Free_Win = "Super_Free_Win"
+S_Super_Free_Extra_Win = "Super_Free_Extra_Win"
+S_Super_Free_Extra_Hit = "Super_Free_Extra_Hit"
+S_Super_Free_Feature_Hit = "Super_Free_Feature_Hit"
+S_Super_Free_Feature_Win = "Super_Free_Feature_Win"
+S_Super_Free_Feature_Spin = "Super_Free_Feature_Spin"
+S_Super_Free_Feature_Extra_Win = "Super_Free_Feature_Extra_Win"
+S_Super_Free_Feature_Extra_Hit = "Super_Free_Feature_Extra_Hit"
 
 S_Free_Feature_Win = "Free_Feature_Win"
 S_Free_Feature_Hit = "Free_Feature_Hit"
@@ -64,7 +71,11 @@ S_Major = "Major"
 S_Minor = "Minor"
 S_Mini = "Mini"
 
-
+S_Count_Num_1 = "Count_num_1"
+S_Count_Num_2 = "Count_num_2"
+S_Count_Num_3 = "Count_num_3"
+S_Count_Num_4 = "Count_num_4"
+S_Count_Num_5 = "Count_num_5"
 
 
 '''Feature Setting'''
@@ -111,7 +122,8 @@ R_Base_Type = 0
 R_Free_Type = 1
 R_Respin_Type = 2
 R_Free_Respin_Type = 12
-
+R_Super_Free_Type = 3
+R_Supper_Free_Respin = 32
 
 R_Reel = 'Reel'
 R_Cal_Reel = "Cal_Reel"

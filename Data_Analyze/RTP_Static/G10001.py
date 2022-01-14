@@ -4,7 +4,7 @@ import os
 import xlwings as xw
 import Data_Analyze.common as common
 import Data_Analyze.Variable as Variable
-
+import Data_Analyze.User_Spin_Count as User_Spin
 
 game_id = 10001
 
@@ -61,7 +61,7 @@ def static_data(summary_data,Sub_data,Sum_Data):
 
         for record in spin_data:
             data_dic = json.loads(record.strip())
-            print((json.dumps(data_dic)))
+            # print((json.dumps(data_dic)))
 
             gameType = data_dic['data']['gameType']
 
@@ -95,6 +95,7 @@ def static_data(summary_data,Sub_data,Sum_Data):
                     analyze_data[Variable.REWARD]["Spin"] += 1
                     analyze_data[Variable.REWARD]["accumulative_bet"] += betGold
                     analyze_data[Variable.REWARD]["accumulative_win"] += winGold
+                    analyze_data[Variable.All_Spin]["Spin"] += 1
 
                 analyze_data[Variable.REWARD]["accumulative_win"] += winGold
                 analyze_data[Variable.REWARD]["accumulative_mul"] += winGold / betGold
@@ -154,7 +155,7 @@ def static_data(summary_data,Sub_data,Sum_Data):
             else:
                 analyze_data[k]['RTP'] = 0
 
-
+        User_Spin.add_data(uid, game_id,analyze_data[Variable.All_Spin]["Spin"])
         personal_data = {uid: analyze_data}
         analyze_data_json = json.dumps(personal_data)
         file = open(summary_store, 'a+', newline='')

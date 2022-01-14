@@ -43,7 +43,7 @@ if __name__ == '__main__':
 
     start_time = datetime.datetime.now()
     total_bet = 12000
-    test_time = 500000
+    test_time = 1000000
 
     p_1 = multiprocessing.Process(target=run,args=(test_time,total_bet,1,))
     p_2 = multiprocessing.Process(target=run,args=(test_time,total_bet,2,))
@@ -84,9 +84,6 @@ if __name__ == '__main__':
                         sum_data[k][int(k2)][i] += sub_data[k][k2][i]
 
 
-
-
-    total_bet = 12000
     print(f"Total RTP：{sum_data[Const.S_Win] / sum_data[Const.S_Bet]}")
     print('===========')
 
@@ -103,6 +100,16 @@ if __name__ == '__main__':
     print(f"Free Spin平均次数：{sum_data[Const.S_FreeSpin] / sum_data[Const.S_Free_Hit]}")
     print(f"Free 间隔：{sum_data[Const.S_Test_Time] / sum_data[Const.S_Free_Hit]}")
 
+    print(f"Free_End_Collect：{round((sum_data[Const.S_Count_Num_1] + sum_data[Const.S_Count_Num_2] + sum_data[Const.S_Count_Num_3])/sum_data[Const.S_Free_Hit],4)}")
+    print(f"Level 1: \t {round(sum_data[Const.S_Count_Num_1] / sum_data[Const.S_Free_Hit],4)}")
+    print(f"Level 2: \t {round(sum_data[Const.S_Count_Num_2] / sum_data[Const.S_Free_Hit],4)}")
+    print(f"Level 3: \t {round(sum_data[Const.S_Count_Num_3] / sum_data[Const.S_Free_Hit],4)}")
+    print(f"Collect_Extra: \t {round(sum_data[Const.S_Count_Num_4] / sum_data[Const.S_Free_Hit],4)}")
+    print(f"Jackpot触发")
+    print(f"Grand触发率：{round(sum_data[Const.S_Grand]/sum_data[Const.S_Test_Time],4)} \t Grand触发次数：{sum_data[Const.S_Grand]}")
+    print(f"Major触发率：{round(sum_data[Const.S_Major]/sum_data[Const.S_Test_Time],4)} \t Major触发次数：{sum_data[Const.S_Major]}")
+    print(f"Minor触发率：{round(sum_data[Const.S_Minor]/sum_data[Const.S_Test_Time],4)} \t Minor触发次数：{sum_data[Const.S_Minor]}")
+    print(f"Mini 触发率：{round(sum_data[Const.S_Mini]/sum_data[Const.S_Test_Time] ,4)} \t  Mini 触发次数：{sum_data[Const.S_Mini]}")
     print('===========')
 
 

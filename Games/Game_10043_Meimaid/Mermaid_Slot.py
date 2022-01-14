@@ -82,10 +82,6 @@ class GameSlot(object):
         #     line_long = line[Const.R_Line_Long]
         #     s_data[Const.S_Base_Sym_Win][kind][line_long-1] += line_win
 
-
-
-
-
         # print(json.dumps(result))
         return result
 
@@ -104,10 +100,7 @@ class FreeGame(object):
     def __init__(self,self_data,freespins):
         self.self_data = self_data
         self.freespins = freespins
-
         self.sc_mark = [[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0]]
-
-
 
     def free_begin(self):
         sc_pos = self.self_data[Const.R_Scatter_Pos]
@@ -122,8 +115,21 @@ class FreeGame(object):
         reel = Slot.GetReel(Base_ReelSets[reel_idx], Config.Const.C_Shape).get_reel()
 
         result[Const.R_Reel] = reel
-
         sc_num, sc_pos = scatter_count(reel)
+
+        collect_win = 0
+        for pos in sc_pos:
+            x = pos[0]
+            y = pos[1]
+
+            if self.sc_mark[x][y] < 3:
+                self.sc_mark[x][y] += 1
+            else:
+                if self.sc_mark[x][y] == 3:
+                    collect_win += totalbet * 10
+                    s_data[Const.S_Count_Num_4] += 1
+
+        result[Const.R_Collect_Data] = copy.deepcopy(self.sc_mark)
 
         # Scatter Win
 
@@ -136,12 +142,12 @@ class FreeGame(object):
             self.freespins += 3
 
 
-        # print(reel,self.sc_mul)
         result[Const.R_Line],result[Const.R_Win_Amount] = Slot.WayLineEvaluator(Config.Const.C_Paytable, Config.Const.C_Wild_Sub, Config.Const.C_LineSym, Config.Wilds, Config.Wild, totalbet, Config.Const.C_BetLine, reel).evaluate()
 
 
         result[Const.R_Scatter_Win] = sc_win
         result[Const.R_Win_Amount] += sc_win
+        result[Const.R_Win_Amount] += collect_win
         result[Const.R_Self_Data] = copy.deepcopy(self.self_data)
 
         """统计部分"""
@@ -171,4 +177,59 @@ class FreeGame(object):
             # print(json.dumps(free_spin))
             free_result[free_recoder] = free_spin
 
+        free_end_account = 0
+        for x in range(len(self.sc_mark)):
+            for y in range(len(self.sc_mark[x])):
+                if self.sc_mark[x][y] == 1:
+                    award = Util.randlist(Config.Scatter_Collect_Prize[0])
+                    free_end_account += award
+
+                    s_data[Const.S_Count_Num_1] += 1
+                    if award == Config.Grand:
+                        s_data[Const.S_Grand] += 1
+                    elif award == Config.Major:
+                        s_data[Const.S_Major] += 1
+                    elif award == Config.Minor:
+                        s_data[Const.S_Minor] += 1
+                    elif award == Config.Mini:
+                        s_data[Const.S_Mini] += 1
+                    else:
+                        pass
+
+                elif self.sc_mark[x][y] == 2:
+                    award = Util.randlist(Config.Scatter_Collect_Prize[1])
+                    free_end_account += award
+
+                    s_data[Const.S_Count_Num_2] += 1
+                    if award == Config.Grand:
+                        s_data[Const.S_Grand] += 1
+                    elif award == Config.Major:
+                        s_data[Const.S_Major] += 1
+                    elif award == Config.Minor:
+                        s_data[Const.S_Minor] += 1
+                    elif award == Config.Mini:
+                        s_data[Const.S_Mini] += 1
+                    else:
+                        pass
+
+                elif self.sc_mark[x][y] == 3:
+                    award = Util.randlist(Config.Scatter_Collect_Prize[2])
+                    free_end_account += award
+
+                    s_data[Const.S_Count_Num_3] += 1
+                    if award == Config.Grand:
+                        s_data[Const.S_Grand] += 1
+                    elif award == Config.Major:
+                        s_data[Const.S_Major] += 1
+                    elif award == Config.Minor:
+                        s_data[Const.S_Minor] += 1
+                    elif award == Config.Mini:
+                        s_data[Const.S_Mini] += 1
+                    else:
+                        pass
+
+                else:
+                    pass
+        # print(self.sc_mark)
+        free_win_amount += free_end_account * totalbet
         return free_result,free_win_amount

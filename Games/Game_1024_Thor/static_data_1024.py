@@ -19,7 +19,7 @@ data = {
     Const.S_Mega_Free_Win:0,
 
     Const.S_Super_Free_Hit: 0,
-    Const.S_Super_Free_Spin_Times:0,
+    Const.S_Super_Free_Spin:0,
     Const.S_Super_Free_Win:0,
 
     Const.S_Feature_Hit: 0,

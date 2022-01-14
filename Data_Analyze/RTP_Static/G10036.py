@@ -4,6 +4,7 @@ import os
 import xlwings as xw
 import Data_Analyze.common as common
 import Data_Analyze.Variable as Variable
+import Data_Analyze.User_Spin_Count as User_Spin
 
 
 game_id = 10036
@@ -84,6 +85,7 @@ def static_data(summary_data,Sub_data,Sum_Data):
             # print(collect_gold_save)
             if gameType == 0:
                 rtpSave = testModel["currentRtp"]
+
             else:
                 pass
 
@@ -161,6 +163,7 @@ def static_data(summary_data,Sub_data,Sum_Data):
             else:
                 analyze_data[k]['RTP'] = 0
 
+        User_Spin.add_data(uid, game_id,analyze_data[Variable.All_Spin]["Spin"])
 
         personal_data = {uid: analyze_data}
         analyze_data_json = json.dumps(personal_data)

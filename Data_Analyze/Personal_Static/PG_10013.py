@@ -3,26 +3,28 @@ import os
 import csv
 import time
 import shutil
-import xlwings as xw
+import openpyxl
 
 Game_ID = 10013
 
 """File"""
 
-Person_File_Site = "F:/Online_Data/Games_Users_Data_2/10013/7062.txt"
-Analyze_Data_Site = "C:/Users/shdch/Desktop/7062"
+Person_File_Site = "/Users/ht/Documents/Online_Data/Games_Users_Data_2/10013/7062.txt"
+Analyze_Data_Site = "/Users/ht/Documents/7062.xlsx"
 
 
 def write_down_excel():
+    wb = openpyxl.Workbook()
+    wb.save(Analyze_Data_Site)
+    wb = openpyxl.load_workbook(Analyze_Data_Site)
 
+    sht = wb.create_sheet("data")
 
-    app = xw.App(visible=True, add_book=False)
-    wb = app.books.add()
-    sht = wb.sheets.add("data")
+    title = ["时间", "game_type", "uid", "user_level", "持金", "spinTimes", "rtp_type", "送奖", "bet", "win", "倍数", "free进度"]
 
-    sht.range('a1').value = ["时间", "game_type", "uid", "user_level", "持金", "spinTimes", "rtp_type", "送奖", "bet", "win", "倍数",
-                             "free进度"]
-
+    for i in range(len(title)):
+        i = i + 1
+        sht.cell(1, i, title[i-1])
     num = 1
 
     O_file = open(Person_File_Site,'r', encoding='UTF-8',newline='')
@@ -63,13 +65,16 @@ def write_down_excel():
 
 
         num += 1
-        cell = 'a' + str(num)
         spin_mul = win / bet
 
-        sht.range(cell).value = [otherStyleTime, game_type, uid, user_level, balance_gold, spin_times, rtp_type, reward_type, bet, win, spin_mul, super_free]
+        data_1 = [otherStyleTime, game_type, uid, user_level, balance_gold, spin_times, rtp_type, reward_type, bet, win, spin_mul, super_free]
+
+        for i in range(len(data_1)):
+            i = i + 1
+            sht.cell(num, i, data_1[i - 1])
 
     wb.save(Analyze_Data_Site)
-    wb.close()
+
 
 
 

@@ -43,7 +43,7 @@ if __name__ == '__main__':
 
     start_time = datetime.datetime.now()
     total_bet = 12000
-    test_time = 5000
+    test_time = 500000
 
     p_1 = multiprocessing.Process(target=run,args=(test_time,total_bet,1,))
 
@@ -92,7 +92,7 @@ if __name__ == '__main__':
     print(f"Free RTP：{sum_data[Const.S_Free_Win] / sum_data[Const.S_Bet]}")
     print(f"Free平均倍数：{sum_data[Const.S_Free_Win] / sum_data[Const.S_Free_Hit] / total_bet}")
     print(f"Free 间隔：{sum_data[Const.S_Test_Time] / sum_data[Const.S_Free_Hit]}")
-
+    print(f"sc_avg-num：{sum_data['Sc_num_2'] / sum_data['Sc_num_1']}")
     print('===========')
 
 

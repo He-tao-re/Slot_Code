@@ -26,6 +26,8 @@ data = {
     Const.S_Free_Win_Hit: 0,
     Const.S_Free_Win: 0,
     Const.S_FreeSpin: 0,
+    'Sc_num_1': 0,
+    'Sc_num_2': 0,
 
     Const.S_Mega_Free_Spin_Times:0,
     Const.S_Mega_Free_Win:0,
