@@ -16,7 +16,7 @@ S_Extra_Win_Hit = "Extra_Win_Hit"
 S_Free_Hit = "Free_Hit"
 S_Free_Win = "Free_Win"
 S_Free_Win_Hit = "Free_Win_Hit"
-S_Free_Spin_Times = "Free_Spins"
+S_FreeSpin_Times = "Free_Spins"
 S_Free_Extra_Win = "Free_Extra_Win"
 S_Free_Extra_Hit = "Free_Extra_Hit"
 

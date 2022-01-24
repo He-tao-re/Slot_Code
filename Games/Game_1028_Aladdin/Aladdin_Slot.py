@@ -1,6 +1,6 @@
 import random
 import Games.Game_1028_Aladdin.Aladdin_config_100 as Config
-import Games.Game_1028_Aladdin.static_data as static
+import Games.Game_1028_Aladdin.static_data_10028 as static
 import Slot_common.Slots as Slot
 import util.Util as Util
 import Slot_common.Const as Const
@@ -10,7 +10,7 @@ import numpy as np
 
 Base_ReelSets = Slot.DealReel().ReelStrip(Config.Const.C_Base_ReelSets)
 Free_ReelSets = Slot.DealReel().ReelStrip(Config.Const.C_Free_ReelSets)
-
+s_data = static.data
 
 def scatter_num(reel):
     sc_num = 0
@@ -95,6 +95,10 @@ class GameSlot(object):
 
             bonus_num = Util.randlist(Config.Base_Mark_Change[len(mark_pos)])
 
+            s_data[Const.S_Count_Num_2] += float(len(mark_pos))
+            s_data[Const.S_Count_Num_5] += 1
+
+
             bonus_pos = random.sample(mark_pos,bonus_num)
 
             for pos in bonus_pos:
@@ -144,13 +148,34 @@ class GameSlot(object):
         result[Const.R_Win_Amount] += sc_win
         result[Const.R_Self_Data] = copy.deepcopy(self.self_data)
 
+        """统计部分"""
+        s_data[Const.S_Test_Time] += 1
+        s_data[Const.S_Bet] += totalbet
+        s_data[Const.S_Base_Win] += result[Const.R_Win_Amount]
 
+        s_data[Const.S_Win] += result[Const.R_Win_Amount]
 
+        if result[Const.R_Win_Amount] > 0:
+            s_data[Const.S_Base_Hit] += 1
+
+        if Const.R_Free in result.keys():
+            s_data[Const.S_Free_Hit] += 1
+            s_data[Const.S_Free_Win] += result[Const.R_Free_Win_Amount]
+
+            s_data[Const.S_Win] += result[Const.R_Free_Win_Amount]
+
+        if Const.R_Respin in result.keys():
+            s_data[Const.S_Feature_Hit] += 1
+            s_data[Const.S_Feature_Win] += result[Const.R_Respin_Win]
+
+            s_data[Const.S_Win] += result[Const.R_Respin_Win]
+            s_data[Const.S_Count_Num_1] += float(result[Const.R_Bonus_Num])
         return result
 
 
 class FreeGame(object):
     def __init__(self):
+        self.FreeRespin = True
         self.self_data = {
             Const.R_Spin_Process: 0,
             Const.R_Collect_Mark: [
@@ -192,7 +217,11 @@ class FreeGame(object):
                     mark_pos.append([x, y])
 
         #按照表格，随机出bonus图标的数量，获得bonus图标的位置
-        bonus_num = Util.randlist(Config.Free_Mark_Change[len(mark_pos)])
+        if self.FreeRespin is True:
+            bonus_num = Util.randlist(Config.Free_Mark_Change_1[len(mark_pos)])
+        else:
+            bonus_num = Util.randlist(Config.Free_Mark_Change_2[len(mark_pos)])
+
         bonus_pos = random.sample(mark_pos, bonus_num)
 
         #bonus图标的信息
@@ -212,15 +241,19 @@ class FreeGame(object):
         result.update(Slot.StandardLineEvaluator(totalbet,wild_feature_reel,Config.Const.C_PayLine, Config.Const.C_Paytable,
                                                  Config.Const.C_BetLine, Config.Const.C_Wild_Sub, Config.Const.C_LineSym,
                                                  Config.Wilds, Config.Wild).evaluate())
-        static.free_line_win += result[Const.R_Win_Amount]
 
         if len(self.self_data[Const.C_Bonus_Prize]) >= 6:
             result[Const.R_Respin], result[Const.R_Respin_Win], result[Const.R_Bonus_Num] = RespinFeature(self.self_data[Const.C_Bonus_Prize]).respin_game(totalbet)
-
+            self.FreeRespin = False
             result[Const.R_Win_Amount] += result[Const.R_Respin_Win]
-            static.free_feature_hit += 1
-            static.free_feature_win += result[Const.R_Respin_Win]
         result[Const.R_Self_Data] = copy.deepcopy(self.self_data)
+
+        '''统计部分'''
+        s_data[Const.S_FreeSpin_Times] += 1
+
+        if Const.R_Respin in result.keys():
+            s_data[Const.S_Free_Feature_Hit] += 1
+            s_data[Const.S_Free_Feature_Win] += result[Const.R_Respin_Win]
 
         return result
 

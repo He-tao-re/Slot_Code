@@ -541,7 +541,7 @@ def super_free_sym_attach_prize(reel):
 class WildFeatureWayEvaluator(Slot.WayLineEvaluator):
 
     def __init__(self, Paytable, Wild_Sub, LineSym, Wilds, Wild, totalbet, line_num, spinreel):
-        super(WildFeatureWayEvaluator, self).__init__( Paytable, Wild_Sub, LineSym, Wilds, Wild, totalbet, line_num, spinreel)
+        super(WildFeatureWayEvaluator, self).__init__(Paytable, Wild_Sub, LineSym, Wilds, Wild, totalbet, line_num, spinreel)
 
     def wild_feature_check(self):
         sym_count = self.Symbol_Count()

@@ -1,7 +1,6 @@
 import json
 import os
 
-import xlwings as xw
 import Data_Analyze.common as common
 import Data_Analyze.Variable as Variable
 import Data_Analyze.User_Spin_Count as User_Spin
@@ -21,8 +20,6 @@ users_data = common.file_path(sort_user_data)
 summary_store = '/Users/ht/Documents/Online_Data/Analyze_Data/summary_' + str(game_id) + '.txt'
 #文件储存文档
 subdivide_data_file = '/Users/ht/Documents/Online_Data/Analyze_Data/subdivide_data_' + str(game_id) + '.xlsx'
-
-
 
 
 
