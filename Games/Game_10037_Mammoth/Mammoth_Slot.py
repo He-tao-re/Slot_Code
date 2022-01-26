@@ -459,6 +459,8 @@ def base_sym_attach_prize(reel):
 
 def attach_prize_judge(win_pos, attach_prize):
     hit_attach_prize = []
+    # print('\n')
+    # print(attach_prize)
     for _list in attach_prize:
         col = _list[0][0]
         kind = _list[0][1]
@@ -471,6 +473,7 @@ def attach_prize_judge(win_pos, attach_prize):
 
         if len(hit_pos) > 0:
             hit_attach_prize.append(_list)
+    # print(hit_attach_prize)
     return hit_attach_prize
 
 def wild_feature(reel):
@@ -546,6 +549,7 @@ class WildFeatureWayEvaluator(Slot.WayLineEvaluator):
     def wild_feature_check(self):
         sym_count = self.Symbol_Count()
         sym_count_check = []
+        # print(sym_count)
         for sym_data in sym_count:
             sym_state = False
             sym_kind = sym_data[Const.R_Line_Kind]

@@ -60,8 +60,8 @@ class GameSlot(object):
         self.self_data[Const.R_Spin_Process] += 1
 
         if self.self_data[Const.R_Spin_Process] < 10:
-
-            reel = Slot.GetReel(Base_ReelSets[0], Config.Const.C_Shape).get_reel()
+            reel_idx = Util.randdict(Config.Base_Reel_Choose)
+            reel = Slot.GetReel(Base_ReelSets[reel_idx], Config.Const.C_Shape).get_reel()
             result[Const.R_Reel] = reel
             for x in range(len(reel)):
                 for y in range(len(reel[x])):
@@ -73,7 +73,7 @@ class GameSlot(object):
                                                      Config.Wilds, Config.Wild).evaluate())
         else:
 
-            reel = Slot.GetReel(Base_ReelSets[1], Config.Const.C_Shape).get_reel()
+            reel = Slot.GetReel(Base_ReelSets[2], Config.Const.C_Shape).get_reel()
             result[Const.R_Reel] = reel
             for x in range(len(reel)):
                 for y in range(len(reel[x])):
@@ -170,6 +170,11 @@ class GameSlot(object):
 
             s_data[Const.S_Win] += result[Const.R_Respin_Win]
             s_data[Const.S_Count_Num_1] += float(result[Const.R_Bonus_Num])
+        if self.self_data[Const.R_Spin_Process] == 0:
+            s_data[Const.S_Count_Num_3] += result[Const.R_Win_Amount]
+        else:
+            s_data[Const.S_Count_Num_4] += result[Const.R_Win_Amount]
+
         return result
 
 

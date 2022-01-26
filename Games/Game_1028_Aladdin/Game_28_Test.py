@@ -97,6 +97,10 @@ if __name__ == '__main__':
     print(f'Base RTP：{sum_data[Const.S_Base_Win] / sum_data[Const.S_Bet]}')
     print(f'Base Hit Rate：{sum_data[Const.S_Base_Hit] / sum_data[Const.S_Test_Time]}')
     print(f"Base 10 Mark 平均数量：{sum_data[Const.S_Count_Num_2] / sum_data[Const.S_Count_Num_5]}")
+    print(f"Base 1-9 RTP：{sum_data[Const.S_Count_Num_4] / sum_data[Const.S_Bet]}")
+    print(f"Base 10 RTP：{sum_data[Const.S_Count_Num_3] / sum_data[Const.S_Bet]}")
+    print(f"Base 10 倍数：{sum_data[Const.S_Count_Num_3] / sum_data[Const.S_Count_Num_5] / total_bet}")
+
     print('=============================')
     print(f'Free RTP：{(sum_data[Const.S_Free_Win] - sum_data[Const.S_Free_Feature_Win]) / sum_data[Const.S_Bet]}')
     print(f'Free Hit Rate：{sum_data[Const.S_Free_Win_Hit] / sum_data[Const.S_FreeSpin_Times]}')
