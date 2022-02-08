@@ -121,7 +121,7 @@ Const.C_ReelSets = [
 
 ]
 
-Wild_Feature_Hit = 0.025
+Wild_Feature_Hit = 0.02
 Free_Wild_Feature_Hit = 0.1
 
 Wild_Feature = [[5,1],[4,20],[3,200],[2,500]]

@@ -34,7 +34,7 @@ class GameSlot(object):
 
             result[Const.R_Reel] = reel
             result[Const.R_Self_Data] = attach_prize
-            result[Const.R_Line], result[Const.R_Way_WinAmount] = WildFeatureWayEvaluator(Config.Const.C_Paytable, Config.Const.C_Wild_Sub, Config.Const.C_LineSym, Config.Wilds, Config.Wild, totalbet, Config.Const.C_BetLine, reel).evaluate()
+            result[Const.R_Line], result[Const.R_Way_WinAmount] = Slot.WayLineEvaluator(Config.Const.C_Paytable, Config.Const.C_Wild_Sub, Config.Const.C_LineSym, Config.Wilds, Config.Wild, totalbet, Config.Const.C_BetLine, reel).evaluate()
 
             win_pos = get_win_pos(result[Const.R_Line])
 
@@ -124,7 +124,7 @@ class FreeGame(object):
 
         result[Const.R_Reel] = reel
         result[Const.R_Self_Data] = attach_prize
-        result[Const.R_Line], result[Const.R_Way_WinAmount] = WildFeatureWayEvaluator(Config.Const.C_Paytable, Config.Const.C_Wild_Sub, Config.Const.C_LineSym, Config.Wilds, Config.Wild, totalbet, Config.Const.C_BetLine, reel).evaluate()
+        result[Const.R_Line], result[Const.R_Way_WinAmount] = Slot.WayLineEvaluator(Config.Const.C_Paytable, Config.Const.C_Wild_Sub, Config.Const.C_LineSym, Config.Wilds, Config.Wild, totalbet, Config.Const.C_BetLine, reel).evaluate()
 
         win_pos = get_win_pos(result[Const.R_Line])
 
@@ -245,7 +245,7 @@ class SuperFreeGame(object):
 
         result[Const.R_Reel] = reel
         result[Const.R_Self_Data] = attach_prize
-        result[Const.R_Line], result[Const.R_Way_WinAmount] = WildFeatureWayEvaluator(Config.Const.C_Paytable, Config.Const.C_Wild_Sub, Config.Const.C_LineSym, Config.Wilds, Config.Wild, totalbet, Config.Const.C_BetLine, reel).evaluate()
+        result[Const.R_Line], result[Const.R_Way_WinAmount] = Slot.WayLineEvaluator(Config.Const.C_Paytable, Config.Const.C_Wild_Sub, Config.Const.C_LineSym, Config.Wilds, Config.Wild, totalbet, Config.Const.C_BetLine, reel).evaluate()
 
         win_pos = get_win_pos(result[Const.R_Line])
 
@@ -352,16 +352,16 @@ def wild_feature_spin(totalbet):
     result = {Const.R_Spin_Type: Const.R_Respin_Type}
 
     reel_idx = 1
-    reel = Slot.GetReel(ReelSets[reel_idx], [5, 6, 6, 6, 6, 6]).get_reel()
+    reel = Slot.GetReel(ReelSets[reel_idx], [3, 4, 4, 4, 4, 4]).get_reel()
 
-    reel = reel_correction(reel)
+    # reel = reel_correction(reel)
     reel = wild_feature(reel)
     attach_prize = base_sym_attach_prize(reel)
 
     result[Const.R_Reel] = reel
     result[Const.R_Self_Data] = attach_prize
     result[Const.R_Line], result[Const.R_Way_WinAmount] = WildFeatureWayEvaluator(Config.Const.C_Paytable, Config.Const.C_Wild_Sub, Config.Const.C_LineSym, Config.Wilds, Config.Wild, totalbet, Config.Const.C_BetLine, reel).evaluate()
-
+    # print(json.dumps(result[Const.R_Line]))
     win_pos = get_win_pos(result[Const.R_Line])
 
     hit_attach_pos = attach_prize_judge(win_pos, attach_prize)
@@ -484,8 +484,10 @@ def wild_feature(reel):
             if reel[x][y] == Config.Blank:
                 blank_pos.append([x,y])
 
-    choose_pos = random.sample(blank_pos,wild_num)
-
+    choose_pos = random.sample(blank_pos,2)
+    # print("===")
+    # print(blank_pos)
+    # print(choose_pos)
     for pos in choose_pos:
         x = pos[0]
         y = pos[1]
@@ -549,6 +551,7 @@ class WildFeatureWayEvaluator(Slot.WayLineEvaluator):
     def wild_feature_check(self):
         sym_count = self.Symbol_Count()
         sym_count_check = []
+        # print("==")
         # print(sym_count)
         for sym_data in sym_count:
             sym_state = False
@@ -563,6 +566,7 @@ class WildFeatureWayEvaluator(Slot.WayLineEvaluator):
 
             if sym_state is True:
                 sym_count_check.append(sym_data)
+        # print(sym_count_check)
 
         return sym_count_check
 

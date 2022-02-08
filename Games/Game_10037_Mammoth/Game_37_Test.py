@@ -85,7 +85,7 @@ if __name__ == '__main__':
 
     start_time = datetime.datetime.now()
     total_bet = 12000
-    test_time = 100000
+    test_time = 200000
 
     p_1 = multiprocessing.Process(target=run,args=(test_time,total_bet,1,))
     p_2 = multiprocessing.Process(target=run,args=(test_time,total_bet,2,))
