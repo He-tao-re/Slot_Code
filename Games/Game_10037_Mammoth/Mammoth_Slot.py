@@ -62,6 +62,7 @@ class GameSlot(object):
                     self.game_data[Const.R_Collect_Progress] = 0
 
 
+
             """统计部分"""
             s_data[Const.S_Bet] += totalbet
             s_data[Const.S_Test_Time] += 1
@@ -79,7 +80,35 @@ class GameSlot(object):
                 s_data[Const.S_Win] += result[Const.R_Extra_Win]
 
         else:
-            result = wild_feature_spin(totalbet)
+            result = {Const.R_Spin_Type: Const.R_Respin_Type}
+
+            reel_idx = 1
+            reel = Slot.GetReel(ReelSets[reel_idx], [3, 4, 4, 4, 4, 4]).get_reel()
+            col_6 = reel[5]
+            if col_6[0] in [Config.H1, Config.H2, Config.H3, Config.H4, Config.H5, Config.H6, Config.Scatter] and col_6[1] not in [Config.H1, Config.H2, Config.H3, Config.H4, Config.H5, Config.H6, Config.Scatter]:
+                col_6[1] = col_6[0]
+            elif col_6[3] in [Config.H1, Config.H2, Config.H3, Config.H4, Config.H5, Config.H6, Config.Scatter] and col_6[2] not in [Config.H1, Config.H2, Config.H3, Config.H4, Config.H5, Config.H6, Config.Scatter]:
+                col_6[2] = col_6[3]
+
+            reel[5] = col_6
+
+            reel = random_wild(reel)
+            attach_prize = base_sym_attach_prize(reel)
+
+            result[Const.R_Reel] = reel
+            result[Const.R_Self_Data] = attach_prize
+            result[Const.R_Line], result[Const.R_Way_WinAmount] = WildFeatureWayEvaluator(Config.Const.C_Paytable, Config.Const.C_Wild_Sub, Config.Const.C_LineSym, Config.Wilds, Config.Wild, totalbet, Config.Const.C_BetLine, reel).evaluate()
+            win_pos = get_win_pos(result[Const.R_Line])
+
+            hit_attach_pos = attach_prize_judge(win_pos, attach_prize)
+
+            result[Const.R_Extra_Win] = 0
+
+            if len(hit_attach_pos) > 0:
+                for hit_pos in hit_attach_pos:
+                    result[Const.R_Extra_Win] += hit_pos[1] * totalbet
+
+            result[Const.R_Win_Amount] = result[Const.R_Way_WinAmount]
 
             """统计部分"""
             s_data[Const.S_Bet] += totalbet
@@ -105,12 +134,14 @@ class GameSlot(object):
         result[Const.R_Game_Data] = copy.deepcopy(self.game_data)
         return result
 
+
+
 class FreeGame(object):
     def __init__(self,game_data):
         self.game_data = game_data
 
     def free_spin(self,totalbet):
-        result = {Const.R_Spin_Type: Const.R_Free_Type}
+        result = {}
         self.game_data[Const.R_Free_Spin_Left] -= 1
 
 
@@ -119,6 +150,7 @@ class FreeGame(object):
 
         reel = reel_correction(reel)
 
+        # reel = [[1,9,9],[0,8,8,8],[1,1,8,8],[1,2,9,9],[1,2,8,8],[1,1,7,7]]
         #free
         attach_prize = free_sym_attach_prize(reel)
 
@@ -131,6 +163,12 @@ class FreeGame(object):
 
         #free
         hit_attach_pos = attach_prize_judge(win_pos, attach_prize)
+
+        # print("")
+        # print(f"Win Pos:{win_pos}")
+        # print(f"Attach_Prize:{attach_prize}")
+        # print(f"Hit_attach_pos:{hit_attach_pos}")
+
 
         result[Const.R_Extra_Win] = 0
 
@@ -169,10 +207,16 @@ class FreeGame(object):
         self.game_data[Const.R_Free_Spin_Left] -= 1
 
         reel_idx = 3
-        reel = Slot.GetReel(ReelSets[reel_idx], [5, 6, 6, 6, 6, 6]).get_reel()
+        reel = Slot.GetReel(ReelSets[reel_idx], [3, 4, 4, 4, 4, 4]).get_reel()
+        col_6 = reel[5]
+        if col_6[0] in [Config.H1, Config.H2, Config.H3, Config.H4, Config.H5, Config.H6, Config.Scatter] and col_6[1] not in [Config.H1, Config.H2, Config.H3, Config.H4, Config.H5, Config.H6, Config.Scatter]:
+            col_6[1] = col_6[0]
+        elif col_6[3] in [Config.H1, Config.H2, Config.H3, Config.H4, Config.H5, Config.H6, Config.Scatter] and col_6[2] not in [Config.H1, Config.H2, Config.H3, Config.H4, Config.H5, Config.H6, Config.Scatter]:
+            col_6[2] = col_6[3]
 
-        reel = reel_correction(reel)
-        reel = wild_feature(reel)
+        reel[5] = col_6
+        reel = random_wild(reel)
+        # reel = [[1,9,9],[0,8,8,8],[1,1,8,8],[1,2,9,9],[1,2,8,8],[1,1,7,7]]
 
         attach_prize = free_sym_attach_prize(reel)
 
@@ -183,6 +227,12 @@ class FreeGame(object):
         win_pos = get_win_pos(result[Const.R_Line])
 
         hit_attach_pos = attach_prize_judge(win_pos, attach_prize)
+
+        # print("")
+        # print(f"reel:{reel}")
+        # print(f"Win Pos:{win_pos}")
+        # print(f"Attach_Prize:{attach_prize}")
+        # print(f"Hit_attach_pos:{hit_attach_pos}")
 
         result[Const.R_Extra_Win] = 0
 
@@ -199,7 +249,7 @@ class FreeGame(object):
         s_data[Const.S_Free_Feature_Win] += result[Const.R_Win_Amount]
 
         if result[Const.R_Extra_Win] > 0:
-            s_data[Const.S_Free_Feature_Extra_Win] += 1
+            s_data[Const.S_Free_Feature_Extra_Win] += result[Const.R_Extra_Win]
             s_data[Const.S_Free_Feature_Extra_Hit] += 1
 
         # S Win
@@ -294,7 +344,7 @@ class SuperFreeGame(object):
         reel = Slot.GetReel(ReelSets[reel_idx], [5, 6, 6, 6, 6, 6]).get_reel()
 
         reel = reel_correction(reel)
-        reel = wild_feature(reel)
+        reel = random_wild(reel)
 
         attach_prize = super_free_sym_attach_prize(reel)
 
@@ -346,36 +396,6 @@ class SuperFreeGame(object):
         """统计部分"""
         s_data[Const.S_Super_Free_Hit] += 1
         return free
-
-
-def wild_feature_spin(totalbet):
-    result = {Const.R_Spin_Type: Const.R_Respin_Type}
-
-    reel_idx = 1
-    reel = Slot.GetReel(ReelSets[reel_idx], [3, 4, 4, 4, 4, 4]).get_reel()
-
-    # reel = reel_correction(reel)
-    reel = wild_feature(reel)
-    attach_prize = base_sym_attach_prize(reel)
-
-    result[Const.R_Reel] = reel
-    result[Const.R_Self_Data] = attach_prize
-    result[Const.R_Line], result[Const.R_Way_WinAmount] = WildFeatureWayEvaluator(Config.Const.C_Paytable, Config.Const.C_Wild_Sub, Config.Const.C_LineSym, Config.Wilds, Config.Wild, totalbet, Config.Const.C_BetLine, reel).evaluate()
-    # print(json.dumps(result[Const.R_Line]))
-    win_pos = get_win_pos(result[Const.R_Line])
-
-    hit_attach_pos = attach_prize_judge(win_pos, attach_prize)
-
-    result[Const.R_Extra_Win] = 0
-
-    if len(hit_attach_pos) > 0:
-        for hit_pos in hit_attach_pos:
-            result[Const.R_Extra_Win] += hit_pos[1] * totalbet
-
-    result[Const.R_Win_Amount] = result[Const.R_Way_WinAmount]
-
-    return result
-
 
 def scatter_count(reel):
     sc_num = 0
@@ -446,54 +466,18 @@ def get_win_pos(Lines):
 def base_sym_attach_prize(reel):
     attach_prize = []
 
-    for x in range(3):
-        if reel[5][x:x+2] in [[Config.H1, Config.H1], [Config.H2, Config.H2], [Config.H3, Config.H3], [Config.H4, Config.H4], [Config.H5, Config.H5], [Config.H6, Config.H6]]:
+    _random_num = random.random()
+    if _random_num < Config.Base_Attach_Prize_Pro:
+        for x in range(3):
+            if reel[5][x:x+2] in [[Config.H1, Config.H1], [Config.H2, Config.H2], [Config.H3, Config.H3], [Config.H4, Config.H4], [Config.H5, Config.H5], [Config.H6, Config.H6]]:
 
-            kind = reel[5][x]
-            prize = Util.randlist(Config.Sym_Attach_Prize[kind][1])
+                kind = reel[5][x]
+                prize = Util.randlist(Config.Sym_Attach_Prize[kind][1])
 
-            #列，图标种类，位置，奖励
-            attach_prize.append([[5,kind,[x,x+1]],prize])
-
-    return attach_prize
-
-def attach_prize_judge(win_pos, attach_prize):
-    hit_attach_prize = []
-    # print('\n')
+                #列，图标种类，位置，奖励
+                attach_prize.append([[5,kind,[x,x+1]],prize])
     # print(attach_prize)
-    for _list in attach_prize:
-        col = _list[0][0]
-        kind = _list[0][1]
-        sym_pos = set(_list[0][2])
-        sym_prize = _list[1]
-
-        win_pos_col = set(win_pos[col])
-
-        hit_pos = sym_pos.intersection(win_pos_col)
-
-        if len(hit_pos) > 0:
-            hit_attach_prize.append(_list)
-    # print(hit_attach_prize)
-    return hit_attach_prize
-
-def wild_feature(reel):
-    wild_num = Util.randlist(Config.Wild_Feature)
-    blank_pos = []
-    for x in range(len(reel)-1):
-        for y in range(len(reel[x])):
-            if reel[x][y] == Config.Blank:
-                blank_pos.append([x,y])
-
-    choose_pos = random.sample(blank_pos,2)
-    # print("===")
-    # print(blank_pos)
-    # print(choose_pos)
-    for pos in choose_pos:
-        x = pos[0]
-        y = pos[1]
-        reel[x][y] = Config.E_Wild
-
-    return reel
+    return attach_prize
 
 def free_sym_attach_prize(reel):
     attach_prize = []
@@ -508,18 +492,25 @@ def free_sym_attach_prize(reel):
                     #列，图标种类，位置，奖励
                     attach_prize.append([[x,kind,[y]],prize])
 
-    for x in [5]:
-        for y in range(3):
-            if reel[x][y: y + 2] in [[Config.H1, Config.H1], [Config.H2, Config.H2], [Config.H3, Config.H3], [Config.H4, Config.H4], [Config.H5, Config.H5], [Config.H6, Config.H6]]:
-                kind = reel[x][y]
+    _rand_num_2 = random.random()
+    if _rand_num_2 < Config.Free_Attach_Prize_Pro:
+        for x in range(3):
+            if reel[5][x:x+2] in [[Config.H1, Config.H1], [Config.H2, Config.H2], [Config.H3, Config.H3], [Config.H4, Config.H4], [Config.H5, Config.H5], [Config.H6, Config.H6]]:
+
+                kind = reel[5][x]
                 prize = Util.randlist(Config.Sym_Attach_Prize[kind][1])
 
-                # 列，图标种类，位置，奖励
-                attach_prize.append([[5, kind, [x, x + 1]], prize])
+                #列，图标种类，位置，奖励
+                attach_prize.append([[5,kind,[x,x+1]],prize])
 
     return attach_prize
 
 def super_free_sym_attach_prize(reel):
+
+    '''
+    所有图标都附带额外奖励
+    '''
+
     attach_prize = []
     for x in range(1,5):
         for y in range(4):
@@ -532,16 +523,57 @@ def super_free_sym_attach_prize(reel):
                     #列，图标种类，位置，奖励
                     attach_prize.append([[x,kind,[y]],prize])
 
-    for x in [5]:
-        for y in range(3):
-            if reel[x][y: y + 2] in [[Config.H1, Config.H1], [Config.H2, Config.H2], [Config.H3, Config.H3], [Config.H4, Config.H4], [Config.H5, Config.H5], [Config.H6, Config.H6]]:
-                kind = reel[x][y]
-                prize = Util.randlist(Config.Sym_Attach_Prize[kind][1])
+    for x in range(3):
+        if reel[5][x:x+2] in [[Config.H1, Config.H1], [Config.H2, Config.H2], [Config.H3, Config.H3], [Config.H4, Config.H4], [Config.H5, Config.H5], [Config.H6, Config.H6]]:
 
-                # 列，图标种类，位置，奖励
-                attach_prize.append([[5, kind, [x, x + 1]], prize])
+            kind = reel[5][x]
+            prize = Util.randlist(Config.Sym_Attach_Prize[kind][1])
+
+            #列，图标种类，位置，奖励
+            attach_prize.append([[5,kind,[x,x+1]],prize])
 
     return attach_prize
+
+def attach_prize_judge(win_pos, attach_prize):
+    hit_attach_prize = []
+    # print('\n')
+    # print(win_pos)
+    # print(attach_prize)
+    for _list in attach_prize:
+        col = _list[0][0]
+        kind = _list[0][1]
+        sym_pos = set(_list[0][2])
+        sym_prize = _list[1]
+
+        win_pos_col = set(win_pos[col])
+        # print(win_pos_col)
+
+        hit_pos = sym_pos.intersection(win_pos_col)
+
+        if len(hit_pos) > 0:
+            hit_attach_prize.append(_list)
+    # print(hit_attach_prize)
+    return hit_attach_prize
+
+def random_wild(reel):
+    wild_num = Util.randlist(Config.Wild_Feature)
+    blank_pos = []
+
+    #第6列的 101（空格）不选入随机wild落点区域
+    for x in range(len(reel)-1):
+        for y in range(len(reel[x])):
+            if reel[x][y] == Config.Blank:
+                blank_pos.append([x,y])
+
+    random.shuffle(blank_pos)
+
+
+    for pos in blank_pos[:wild_num]:
+        x = pos[0]
+        y = pos[1]
+        reel[x][y] = Config.Wild
+
+    return reel
 
 class WildFeatureWayEvaluator(Slot.WayLineEvaluator):
 

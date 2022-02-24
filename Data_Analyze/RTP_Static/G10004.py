@@ -64,91 +64,17 @@ def static_data(summary_data,Sub_data,Sum_Data):
             data_dic = json.loads(record.strip())
             print((json.dumps(data_dic)))
 
-            gameType = data_dic['data']['gameType']
+            # gameType = data_dic['data']['gameType']
 
             testModel = data_dic["data"]['attachInfo']['testModel']
 
-            betGold = data_dic["data"]["betGold"]
-            winGold = data_dic["data"]["totalWinGold"]
 
-            bet_times = testModel["spinTimes"]
 
             uid = data_dic["data"]["uid"]
 
-            gameId = data_dic["data"]["gameId"]
-            currentGold = data_dic["data"]["gold"]
             createTime = data_dic["data"]["serverTime"]
 
-            if gameType == 0:
-                rtpSave = testModel["currentRtp"]
 
-            else:
-                pass
-
-            if betGold != 0:
-                mul = winGold / betGold
-            else:
-                mul = 0
-
-
-            if "rewardId" in testModel.keys():
-
-                if gameType == 0:
-                    analyze_data[Variable.REWARD]["Spin"] += 1
-                    analyze_data[Variable.REWARD]["accumulative_bet"] += betGold
-                    analyze_data[Variable.REWARD]["accumulative_win"] += winGold
-
-                analyze_data[Variable.REWARD]["accumulative_win"] += winGold
-                analyze_data[Variable.REWARD]["accumulative_mul"] += winGold / betGold
-
-
-            else:
-                if gameType == 0:
-                    rtpType = rtpSave
-
-                    analyze_data[rtpType]["Spin"] += 1
-                    analyze_data[rtpType]["accumulative_bet"] += betGold
-                    analyze_data[rtpType]["accumulative_win"] += winGold
-                    analyze_data[rtpType]["accumulative_mul"] += mul
-
-                    analyze_data[Variable.All_Spin]["Spin"] += 1
-                    analyze_data[Variable.All_Spin]["accumulative_bet"] += betGold
-                    analyze_data[Variable.All_Spin]["accumulative_win"] += winGold
-                    analyze_data[Variable.All_Spin]["accumulative_mul"] += mul
-
-
-
-
-                elif gameType == 1:
-                    rtpType = rtpSave
-                    mul = winGold / betGold
-
-                    analyze_data[rtpType]["accumulative_win"] += winGold
-                    analyze_data[rtpType]["accumulative_mul"] += mul
-
-                    analyze_data[Variable.All_Spin]["accumulative_win"] += winGold
-                    analyze_data[Variable.All_Spin]["accumulative_mul"] += mul
-
-                elif gameType == 2:
-                    rtpType = rtpSave
-                    betGold = data_dic["data"]["betGold"]
-                    mul = winGold / betGold
-
-                    analyze_data[rtpType]["accumulative_win"] += winGold
-                    analyze_data[rtpType]["accumulative_mul"] += mul
-
-                    analyze_data[Variable.All_Spin]["accumulative_win"] += winGold
-                    analyze_data[Variable.All_Spin]["accumulative_mul"] += mul
-
-                elif gameType == 3:
-                    rtpType = rtpSave
-                    mul = winGold / betGold
-                    analyze_data[rtpType]["accumulative_win"] += winGold
-                    analyze_data[rtpType]["accumulative_mul"] += mul
-
-
-                    analyze_data[Variable.All_Spin]["accumulative_win"] += winGold
-                    analyze_data[Variable.All_Spin]["accumulative_mul"] += mul
 
         for k in [Variable.All_Spin, Variable.RTP120, Variable.RTP110, Variable.RTP100, Variable.RTP98, Variable.RTP96, Variable.RTP94, Variable.RTP90, Variable.RTP85, Variable.RTP80, Variable.RTP70, Variable.NOFEATURE, Variable.REWARD]:
             if analyze_data[k]['Spin'] != 0:

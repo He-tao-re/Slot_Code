@@ -62,7 +62,7 @@ def static_data(summary_data,Sub_data,Sum_Data):
 
         for record in spin_data:
             data_dic = json.loads(record.strip())
-            # print((json.dumps(data_dic)))
+            print((json.dumps(data_dic)))
 
             gameType = data_dic['data']['gameType']
 

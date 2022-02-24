@@ -59,7 +59,7 @@ def static_data(summary_data,Sub_data,Sum_Data):
 
 
         rtpSave = "RTP96"
-
+        collect_gold = 0
         for record in spin_data:
             data_dic = json.loads(record.strip())
             # print((json.dumps(data_dic)))
@@ -81,6 +81,8 @@ def static_data(summary_data,Sub_data,Sum_Data):
 
             if gameType == 0:
                 rtpSave = testModel["currentRtp"]
+                collect_gold = data_dic["data"]['totalCollectGold']
+
 
             else:
                 pass
@@ -131,8 +133,7 @@ def static_data(summary_data,Sub_data,Sum_Data):
 
                 elif gameType == 2:
                     rtpType = rtpSave
-                    betGold = data_dic["data"]["betGold"]
-                    mul = winGold / betGold
+                    mul = data_dic["data"]["bonusAward"]
 
                     analyze_data[rtpType]["accumulative_win"] += winGold
                     analyze_data[rtpType]["accumulative_mul"] += mul

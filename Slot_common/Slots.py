@@ -270,6 +270,27 @@ class StandardLineEvaluator(object):
         line_result[Const.R_Win_Amount] = winAmount
         return line_result
 
+    def mul_wild_evaluate_2(self,wild_mul):
+        line_result = {}
+        line_ifo = self.GetAllLine()
+        line_result[Const.R_Line] = []
+        winAmount = 0
+        for singalline in line_ifo:
+            oneline = self.evaluateLine(singalline)
+            if oneline[Const.R_Line_Win] > 0:
+
+                wild_num = 0
+                for wild in self.wilds:
+                    wild_num += oneline[Const.R_Line_Combo][:oneline[Const.R_Line_Long]].count(wild)
+
+                oneline[Const.R_Line_Mul] *= pow(wild_mul,wild_num)
+                oneline[Const.R_Line_Win] *= pow(wild_mul,wild_num)
+
+                winAmount += oneline[Const.R_Line_Win]
+                line_result[Const.R_Line].append(oneline)
+        line_result[Const.R_Line_WinAmount] = winAmount
+        line_result[Const.R_Win_Amount] = winAmount
+        return line_result
 
 
 class WayLineEvaluator(object):

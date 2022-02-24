@@ -28,6 +28,8 @@ import Data_Analyze.RTP_Static.G10022 as RTP_Static_G10022
 import Data_Analyze.RTP_Static.G10023 as RTP_Static_G10023
 import Data_Analyze.RTP_Static.G10024 as RTP_Static_G10024
 import Data_Analyze.RTP_Static.G10025 as RTP_Static_G10025
+import Data_Analyze.RTP_Static.G10026 as RTP_Static_G10026
+
 import Data_Analyze.RTP_Static.G10029 as RTP_Static_G10029
 
 
@@ -45,9 +47,9 @@ def test_rtp_data(Sub_Data,Sum_Data):
     except FileNotFoundError:
         wb = openpyxl.Workbook()
         wb.save(summary_data)
-    print(10002)
+    print(10004)
 
-    RTP_Static_G10015.static_data(summary_data,Sub_Data,Sum_Data)
+    RTP_Static_G10004.static_data(summary_data,Sub_Data,Sum_Data)
 
 
 def rtp_data(Sub_Data,Sum_Data):
@@ -72,10 +74,10 @@ def rtp_data(Sub_Data,Sum_Data):
     # # 机台RTP数据统计
     print(10001)
     RTP_Static_G10001.static_data(summary_data,Sub_Data,Sum_Data)
-
     print(10002)
     RTP_Static_G10002.static_data(summary_data,Sub_Data,Sum_Data)
-    # RTP_Static_G10003.static_data(summary_data,Sub_Data,Sum_Data)
+    print(10003)
+    RTP_Static_G10003.static_data(summary_data,Sub_Data,Sum_Data)
     # RTP_Static_G10004.static_data(summary_data,Sub_Data,Sum_Data)
     print(10005)
     RTP_Static_G10005.static_data(summary_data,Sub_Data,Sum_Data)
@@ -111,11 +113,14 @@ def rtp_data(Sub_Data,Sum_Data):
     RTP_Static_G10021.static_data(summary_data,Sub_Data,Sum_Data)
     print(10022)
     RTP_Static_G10022.static_data(summary_data,Sub_Data,Sum_Data)
+    print(10024)
+    RTP_Static_G10024.static_data(summary_data,Sub_Data,Sum_Data)
     print(10025)
     RTP_Static_G10025.static_data(summary_data,Sub_Data,Sum_Data)
+    print(10026)
+    RTP_Static_G10026.static_data(summary_data,Sub_Data,Sum_Data)
     print(10029)
     RTP_Static_G10029.static_data(summary_data,Sub_Data,Sum_Data)
-
     print(10036)
     RTP_Static_G10036.static_data(summary_data,Sub_Data,Sum_Data)
 
@@ -156,7 +161,7 @@ def final_data(Key):
 
         uid_list = sorted(User_Spin.User_Spin_Count.keys())
 
-        game_list = [10001, 10002, 10005, 10008, 10009, 10010, 10011, 10012, 10013, 10014, 10015, 10016, 10017, 10018, 10019, 10020, 10021, 10022, 10025, 10029, 10036]
+        game_list = [i for i in range(10001,10050)]
 
         write_sheet_2.cell(1, 1, "uid")
         write_sheet_2.cell(1, 2, "Sum")

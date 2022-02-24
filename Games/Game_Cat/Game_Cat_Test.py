@@ -98,7 +98,7 @@ if __name__ == '__main__':
 
 
     total_bet = 4000
-    TestCase(static_data_1, test_time=1000000, total_bet=total_bet).test()
+    TestCase(static_data_1, test_time=5000000, total_bet=total_bet).test()
 
 
 
