@@ -17,7 +17,7 @@ def get_bonus_prize(reel):
         for j in range(3):
             idx = j * 5 + i
             if reel[i][j] == Config.Bonus:
-                bonus_prize[idx] = Util.randdict(Config.Const.C_Bonus_Prize)
+                bonus_prize[idx] = Util.randlist(Config.Const.C_Bonus_Prize)
     return bonus_prize
 
 
@@ -158,7 +158,7 @@ class RespinGame(object):
                             x_random = random.random()
 
                             if x_random < self.bonus_pos_pro[1][x][y]:
-                                self.bonus_reel[1][x][y] = Util.randdict(Config.Const.C_Bonus_Prize)
+                                self.bonus_reel[1][x][y] = Util.randlist(Config.Const.C_Bonus_Prize)
                                 respin_times = 3
 
             else:
@@ -169,7 +169,7 @@ class RespinGame(object):
                                 x_random = random.random()
 
                                 if x_random < self.bonus_pos_pro[2][x][y]:
-                                    self.bonus_reel[2][x][y] = Util.randdict(Config.Const.C_Bonus_Prize)
+                                    self.bonus_reel[2][x][y] = Util.randlist(Config.Const.C_Bonus_Prize)
                                     respin_times = 3
 
                 else:
@@ -180,7 +180,7 @@ class RespinGame(object):
                                     x_random = random.random()
 
                                     if x_random < self.bonus_pos_pro[3][x][y]:
-                                        self.bonus_reel[3][x][y] = Util.randdict(Config.Const.C_Bonus_Prize)
+                                        self.bonus_reel[3][x][y] = Util.randlist(Config.Const.C_Bonus_Prize)
                                         respin_times = 3
                     else:
                         if count_blank[3] < 15:
@@ -190,7 +190,7 @@ class RespinGame(object):
                                         x_random = random.random()
 
                                         if x_random < self.bonus_pos_pro[4][x][y]:
-                                            self.bonus_reel[4][x][y] = Util.randdict(Config.Const.C_Bonus_Prize)
+                                            self.bonus_reel[4][x][y] = Util.randlist(Config.Const.C_Bonus_Prize)
                                             respin_times = 3
 
             respin[respin_recoder] = {Const.R_Respin_Reel: copy.deepcopy(self.bonus_reel)}

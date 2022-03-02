@@ -29,6 +29,7 @@ import Data_Analyze.RTP_Static.G10023 as RTP_Static_G10023
 import Data_Analyze.RTP_Static.G10024 as RTP_Static_G10024
 import Data_Analyze.RTP_Static.G10025 as RTP_Static_G10025
 import Data_Analyze.RTP_Static.G10026 as RTP_Static_G10026
+import Data_Analyze.RTP_Static.G10028 as RTP_Static_G10028
 
 import Data_Analyze.RTP_Static.G10029 as RTP_Static_G10029
 
@@ -119,6 +120,8 @@ def rtp_data(Sub_Data,Sum_Data):
     RTP_Static_G10025.static_data(summary_data,Sub_Data,Sum_Data)
     print(10026)
     RTP_Static_G10026.static_data(summary_data,Sub_Data,Sum_Data)
+    print(10028)
+    RTP_Static_G10028.static_data(summary_data,Sub_Data,Sum_Data)
     print(10029)
     RTP_Static_G10029.static_data(summary_data,Sub_Data,Sum_Data)
     print(10036)

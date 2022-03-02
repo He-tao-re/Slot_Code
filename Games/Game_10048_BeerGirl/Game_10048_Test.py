@@ -5,14 +5,19 @@ import json
 import copy
 
 import Slot_common.Const as Const
-import Games.Game_10043_Meimaid.Mermaid_Slot as Game_Slot
-import Games.Game_10043_Meimaid.static_data_10043 as static_data
+import Games.Game_10048_BeerGirl.BeerGirl_Slot as Game_Slot
+import Games.Game_10048_BeerGirl.static_data_10048 as static_data
 
 
 class TestCase(object):
     def __init__(self):
 
-        self.self_data = {}
+        self.game_data = {
+            Const.R_Collect_Data: {
+                0: [0, 0, 0, 0, 0],
+                1: [0, 0, 0, 0, 0]
+            }
+        }
 
     def test(self, Test_Time, Total_bet, p_idx):
         times = 0
@@ -23,9 +28,10 @@ class TestCase(object):
                 if p_idx == 1:
                     print(str(int(times / Test_Time * 100)) + ' %')
 
-            result = Game_Slot.GameSlot(self.self_data).paidspin(Total_bet)
-            self.self_data = result[Const.R_Self_Data]
+            result = Game_Slot.GameSlot(self.game_data).paidspin(Total_bet)
+            self.game_data = result[Const.R_Game_Data]
         file_name = str(p_idx)
+
         try:
             os.remove(file_name)
         except FileNotFoundError:
@@ -43,7 +49,7 @@ if __name__ == '__main__':
 
     start_time = datetime.datetime.now()
     total_bet = 12000
-    test_time = 1000000
+    test_time = 500000
 
     p_1 = multiprocessing.Process(target=run,args=(test_time,total_bet,1,))
     p_2 = multiprocessing.Process(target=run,args=(test_time,total_bet,2,))
@@ -64,9 +70,9 @@ if __name__ == '__main__':
     p_5.join()
 
     data_list = []
-    file_list = ['1','2','3','4','5']
+    file_list = ['1', '2', '3', '4', '5']
     for file in file_list:
-        with open(file,'r') as f:
+        with open(file, 'r') as f:
             contents = f.read()
             data_list.append(json.loads(contents))
         try:

@@ -51,7 +51,7 @@ def run(Test_time, p_idx):
 if __name__ == '__main__':
 
     start_time = datetime.datetime.now()
-    test_time = 1000000
+    test_time = 100000
 
     p_1 = multiprocessing.Process(target=run, args=(test_time, 1,))
     p_2 = multiprocessing.Process(target=run, args=(test_time, 2,))

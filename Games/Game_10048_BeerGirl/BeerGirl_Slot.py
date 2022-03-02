@@ -1,11 +1,11 @@
 import random
 import copy
 import json
-import Games.Game_10043_Meimaid.Mermaid_Config as Config
+import Games.Game_10048_BeerGirl.BeerGirl_Config as Config
 import Slot_common.Slots as Slot
 import util.Util as Util
 import Slot_common.Const as Const
-import Games.Game_10043_Meimaid.static_data_10043 as static_data
+import Games.Game_10048_BeerGirl.static_data_10048 as static_data
 
 
 Base_ReelSets = Slot.DealReel().ReelStrip(Config.Const.C_Base_ReelSets)
@@ -36,14 +36,19 @@ class GameSlot(object):
         reel_idx = Util.randdict(Config.Base_Reel_Choose)
         reel = Slot.GetReel(Base_ReelSets[reel_idx], Config.Const.C_Shape).get_reel()
 
+        # Wild feature下的Bonus图标变成L5（展示）不影响RTP
+        reel = self.bonus_change(reel)
+        # Scatter 图标统计
+        sc_num,sc_pos = scatter_count(reel)
+
+        self.bonus_collect(reel)
+
+        reel = self.wild_feature(reel)
+
         result[Const.R_Reel] = reel
+        result[Const.R_Game_Data] = copy.deepcopy(self.game_data)
 
 
-        self.special_sym_count(reel)
-
-
-        #Scatter Win
-        sc_num = len(self.game_data[Const.R_Scatter_Pos])
         if sc_num >= 1:
             sc_win = totalbet * Config.Const.C_Paytable[Config.Scatter][sc_num-1]
         else:
@@ -56,11 +61,10 @@ class GameSlot(object):
         result[Const.R_Scatter_Win] = sc_win
         result[Const.R_Win_Amount] += sc_win
 
-        result[Const.R_Game_Data] = copy.deepcopy(self.game_data)
 
-        if sc_num >= 3:
-            # result[Const.R_Free], result[Const.R_Free_Win_Amount] = FreeGame(self_data=self.self_data,freespins=10).free(totalbet)
-            pass
+        # if sc_num >= 3:
+        #     # result[Const.R_Free], result[Const.R_Free_Win_Amount] = FreeGame(self_data=self.self_data,freespins=10).free(totalbet)
+        #     pass
 
 
         """统计部分"""
@@ -89,14 +93,36 @@ class GameSlot(object):
 
         return result
 
-    def special_sym_count(self,reel):
-        sc_pos = []
+
+    def bonus_change(self,reel):
         for x in range(len(reel)):
             for y in range(len(reel[x])):
-                idx = y * 5 + x
-                if reel[x][y] == Config.Scatter:
-                    sc_pos.append([x,y])
+                if reel[x][y] == Config.Bonus and self.game_data[Const.R_Collect_Data][0][x] == 2:
+                    reel[x][y] = Config.L5
+        return reel
 
-        self.game_data[Const.R_Scatter_Pos] = sc_pos
+
+    def bonus_collect(self,reel):
+
+        for x in range(5):
+            for y in range(4):
+                if reel[x][y] == Config.Bonus and self.game_data[Const.R_Collect_Data][0][x] != 2:
+                    self.game_data[Const.R_Collect_Data][0][x] += 1
+
+            if self.game_data[Const.R_Collect_Data][0][x] == 2 and self.game_data[Const.R_Collect_Data][1][x] == 0:
+                self.game_data[Const.R_Collect_Data][1][x] = 2
+
+    def wild_feature(self,reel):
+
+        for x in range(5):
+            if self.game_data[Const.R_Collect_Data][1][x] > 0:
+                reel[x] = [Config.Wild,Config.Wild,Config.Wild,Config.Wild]
+                self.game_data[Const.R_Collect_Data][1][x] -= 1
+
+                if self.game_data[Const.R_Collect_Data][1][x] == 0:
+                    self.game_data[Const.R_Collect_Data][0][x] = 0
+
+        return reel
+
 
 
